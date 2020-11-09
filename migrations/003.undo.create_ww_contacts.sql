@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS workwork_contacts;
+DROP TABLE IF EXISTS workwork_jobcontacts;

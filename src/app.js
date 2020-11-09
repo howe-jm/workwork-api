@@ -5,14 +5,27 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 
+const jobcardsRouter = require('./jobcards/jobcards-router');
+const jobContactsRouter = require('./jobcontacts/jobcontacts-router');
+const jobEventsRouter = require('./jobevents/jobevents-router');
+const studyCardsRouter = require('./studycards/studycards-router');
+const studyEventsRouter = require('./studyevents/studyevents-router');
+const usersRouter = require('./users/users-router');
+
 const app = express();
 
-const morganOption =
-  NODE_ENV === 'production' ? 'tiny' : 'common';
+const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
+
+app.use('/api/jobcards', jobcardsRouter);
+app.use('/api/jobcontacts', jobContactsRouter);
+app.use('/api/jobevents', jobEventsRouter);
+app.use('/api/studycards', studyCardsRouter);
+app.use('/api/studyevents', studyEventsRouter);
+app.use('/api/users', usersRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');
