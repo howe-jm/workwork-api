@@ -41,4 +41,24 @@ describe('Job Events Endpoints', () => {
       });
     });
   });
+  context('Given there are events in the db', () => {
+    const testUsers = makeUsersArray();
+    const testCards = makeJobCardsArray();
+    const testEvents = makeJobEventsArray();
+
+    beforeEach('Insert users', () => {
+      return db
+        .into('workwork_users')
+        .insert(testUsers)
+        .then(() => {
+          return db.into('workwork_jobcards').insert(testCards);
+        })
+        .then(() => {
+          return db.into('workwork_jobevents').insert(testEvents);
+        });
+    });
+    it('Responds with 200 and all of the events', () => {
+      return supertest(app).get('/api/jobevents').expect(200, testEvents);
+    });
+  });
 });

@@ -36,4 +36,20 @@ describe('Job Cards Endpoints', () => {
       });
     });
   });
+  context('Given there are cards in the db', () => {
+    const testUsers = makeUsersArray();
+    const testCards = makeJobCardsArray();
+
+    beforeEach('Insert users', () => {
+      return db
+        .into('workwork_users')
+        .insert(testUsers)
+        .then(() => {
+          return db.into('workwork_jobcards').insert(testCards);
+        });
+    });
+    it('Responds with 200 and all of the cards', () => {
+      return supertest(app).get('/api/jobcards').expect(200, testCards);
+    });
+  });
 });

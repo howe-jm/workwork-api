@@ -41,4 +41,24 @@ describe('Job Contacts Endpoints', () => {
       });
     });
   });
+  context('Given there are Contacts in the db', () => {
+    const testUsers = makeUsersArray();
+    const testCards = makeJobCardsArray();
+    const testContacts = makeJobContactsArray();
+
+    beforeEach('Insert users', () => {
+      return db
+        .into('workwork_users')
+        .insert(testUsers)
+        .then(() => {
+          return db.into('workwork_jobcards').insert(testCards);
+        })
+        .then(() => {
+          return db.into('workwork_jobcontacts').insert(testContacts);
+        });
+    });
+    it('Responds with 200 and all of the Contacts', () => {
+      return supertest(app).get('/api/jobcontacts').expect(200, testContacts);
+    });
+  });
 });

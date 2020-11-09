@@ -3,9 +3,9 @@ const { expect } = require('chai');
 const knex = require('knex');
 const supertest = require('supertest');
 const app = require('../src/app');
-const { makeJobCardsArray } = require('./fixtures/studycards.fixtures');
+const { makeStudyCardsArray } = require('./fixtures/studycards.fixtures');
 const { makeUsersArray } = require('./fixtures/users.fixtures');
-const { makeJobEventsArray } = require('./fixtures/studyevents.fixtures');
+const { makeStudyEventsArray } = require('./fixtures/studyevents.fixtures');
 
 describe('Study Events Endpoints', () => {
   let db;
@@ -39,6 +39,26 @@ describe('Study Events Endpoints', () => {
           .get('/api/studyevents')
           .expect(404, { error: { message: 'No study events' } });
       });
+    });
+  });
+  context('Given there are events in the db', () => {
+    const testUsers = makeUsersArray();
+    const testCards = makeStudyCardsArray();
+    const testEvents = makeStudyEventsArray();
+
+    beforeEach('Insert users', () => {
+      return db
+        .into('workwork_users')
+        .insert(testUsers)
+        .then(() => {
+          return db.into('workwork_studycards').insert(testCards);
+        })
+        .then(() => {
+          return db.into('workwork_studyevents').insert(testEvents);
+        });
+    });
+    it('Responds with 200 and all of the events', () => {
+      return supertest(app).get('/api/studyevents').expect(200, testEvents);
     });
   });
 });

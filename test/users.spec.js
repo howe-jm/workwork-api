@@ -35,4 +35,15 @@ describe('Users Endpoints', () => {
       });
     });
   });
+
+  context('Given there are users in the db', () => {
+    const testUsers = makeUsersArray();
+
+    beforeEach('Insert users', () => {
+      return db.into('workwork_users').insert(testUsers);
+    });
+    it('Responds with 200 and all of the folders', () => {
+      return supertest(app).get('/api/users').expect(200, testUsers);
+    });
+  });
 });

@@ -1,0 +1,198 @@
+function makeJobEventsArray() {
+  return [
+    {
+      id: 1,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-02-12T00:00:00.000Z',
+      card_id: 2,
+    },
+    {
+      id: 2,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-02-13T00:00:00.000Z',
+      card_id: 5,
+    },
+    {
+      id: 3,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-02-13T00:00:00.000Z',
+      card_id: 9,
+    },
+    {
+      id: 4,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-02-14T00:00:00.000Z',
+      card_id: 1,
+    },
+    {
+      id: 5,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-02-26T00:00:00.000Z',
+      card_id: 6,
+    },
+    {
+      id: 6,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-03-01T00:00:00.000Z',
+      card_id: 8,
+    },
+    {
+      id: 7,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-03-01T00:00:00.000Z',
+      card_id: 4,
+    },
+    {
+      id: 8,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-03-03T00:00:00.000Z',
+      card_id: 7,
+    },
+    {
+      id: 9,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-01-04T00:00:00.000Z',
+      card_id: 12,
+    },
+    {
+      id: 10,
+      eventtype: 'Resume Submitted',
+      date_added: '2019-01-04T00:00:00.000Z',
+      card_id: 3,
+    },
+    {
+      id: 11,
+      eventtype: 'Interview',
+      date_added: '2019-03-01T00:00:00.000Z',
+      card_id: 5,
+    },
+    {
+      id: 12,
+      eventtype: 'Interview',
+      date_added: '2019-03-02T00:00:00.000Z',
+      card_id: 9,
+    },
+    {
+      id: 13,
+      eventtype: 'Interview',
+      date_added: '2019-03-02T00:00:00.000Z',
+      card_id: 7,
+    },
+    {
+      id: 14,
+      eventtype: 'Interview',
+      date_added: '2019-04-04T00:00:00.000Z',
+      card_id: 4,
+    },
+    {
+      id: 15,
+      eventtype: 'Interview',
+      date_added: '2019-04-07T00:00:00.000Z',
+      card_id: 3,
+    },
+    {
+      id: 16,
+      eventtype: 'Interview',
+      date_added: '2019-04-10T00:00:00.000Z',
+      card_id: 2,
+    },
+    {
+      id: 17,
+      eventtype: 'Interview',
+      date_added: '2019-04-14T00:00:00.000Z',
+      card_id: 11,
+    },
+    {
+      id: 18,
+      eventtype: 'Interview',
+      date_added: '2019-04-19T00:00:00.000Z',
+      card_id: 12,
+    },
+    {
+      id: 19,
+      eventtype: 'Second Interview',
+      date_added: '2019-04-01T00:00:00.000Z',
+      card_id: 5,
+    },
+    {
+      id: 20,
+      eventtype: 'Second Interview',
+      date_added: '2019-04-02T00:00:00.000Z',
+      card_id: 12,
+    },
+    {
+      id: 21,
+      eventtype: 'Second Interview',
+      date_added: '2019-04-02T00:00:00.000Z',
+      card_id: 3,
+    },
+    {
+      id: 22,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-04-09T00:00:00.000Z',
+      card_id: 4,
+    },
+    {
+      id: 23,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-04-09T00:00:00.000Z',
+      card_id: 2,
+    },
+    {
+      id: 24,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-04-10T00:00:00.000Z',
+      card_id: 1,
+    },
+    {
+      id: 25,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-04-11T00:00:00.000Z',
+      card_id: 3,
+    },
+    {
+      id: 26,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-04-12T00:00:00.000Z',
+      card_id: 11,
+    },
+    {
+      id: 27,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-04-12T00:00:00.000Z',
+      card_id: 5,
+    },
+    {
+      id: 28,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-05-13T00:00:00.000Z',
+      card_id: 3,
+    },
+    {
+      id: 29,
+      eventtype: 'Follow-Up Call',
+      date_added: '2019-05-13T00:00:00.000Z',
+      card_id: 12,
+    },
+    {
+      id: 30,
+      eventtype: 'Job Offer',
+      date_added: '2019-05-12T00:00:00.000Z',
+      card_id: 3,
+    },
+    {
+      id: 31,
+      eventtype: 'Job Offer',
+      date_added: '2019-05-13T00:00:00.000Z',
+      card_id: 12,
+    },
+    {
+      id: 32,
+      eventtype: 'Job Offer',
+      date_added: '2019-05-13T00:00:00.000Z',
+      card_id: 1,
+    },
+  ];
+}
+
+module.exports = { makeJobEventsArray };

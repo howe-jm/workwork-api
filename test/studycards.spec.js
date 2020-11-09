@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const knex = require('knex');
 const supertest = require('supertest');
 const app = require('../src/app');
-const { makestudyCardsArray } = require('./fixtures/studycards.fixtures');
+const { makeStudyCardsArray } = require('./fixtures/studycards.fixtures');
 const { makeUsersArray } = require('./fixtures/users.fixtures');
 
 describe('Study Cards Endpoints', () => {
@@ -34,6 +34,22 @@ describe('Study Cards Endpoints', () => {
           .get('/api/studycards')
           .expect(404, { error: { message: 'No study cards' } });
       });
+    });
+  });
+  context('Given there are cards in the db', () => {
+    const testUsers = makeUsersArray();
+    const testCards = makeStudyCardsArray();
+
+    beforeEach('Insert users', () => {
+      return db
+        .into('workwork_users')
+        .insert(testUsers)
+        .then(() => {
+          return db.into('workwork_studycards').insert(testCards);
+        });
+    });
+    it('Responds with 200 and all of the cards', () => {
+      return supertest(app).get('/api/studycards').expect(200, testCards);
     });
   });
 });
