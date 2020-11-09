@@ -61,4 +61,15 @@ describe('Job Contacts Endpoints', () => {
       return supertest(app).get('/api/jobcontacts').expect(200, testContacts);
     });
   });
+
+  describe('GET /api/jobcontacts/:contact_id', () => {
+    context('Given no contacts', () => {
+      it('Returns a 404 error', () => {
+        const contactId = 3;
+        return supertest(app)
+          .get(`/api/jobcontacts/${contactId}`)
+          .expect(404, { error: { message: 'Contact not found' } });
+      });
+    });
+  });
 });

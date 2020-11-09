@@ -52,4 +52,15 @@ describe('Study Cards Endpoints', () => {
       return supertest(app).get('/api/studycards').expect(200, testCards);
     });
   });
+
+  describe('GET /api/studycards/:card_id', () => {
+    context('Given no cards', () => {
+      it('Returns a 404 error', () => {
+        const cardId = 3;
+        return supertest(app)
+          .get(`/api/studycards/${cardId}`)
+          .expect(404, { error: { message: 'Card not found' } });
+      });
+    });
+  });
 });

@@ -46,4 +46,15 @@ describe('Users Endpoints', () => {
       return supertest(app).get('/api/users').expect(200, testUsers);
     });
   });
+
+  describe('GET /api/users/:user_id', () => {
+    context('Given no users', () => {
+      it('Returns a 404 error', () => {
+        const userId = 3;
+        return supertest(app)
+          .get(`/api/users/${userId}`)
+          .expect(404, { error: { message: 'User not found' } });
+      });
+    });
+  });
 });

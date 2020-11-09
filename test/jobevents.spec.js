@@ -61,4 +61,15 @@ describe('Job Events Endpoints', () => {
       return supertest(app).get('/api/jobevents').expect(200, testEvents);
     });
   });
+
+  describe('GET /api/jobevents/:event_id', () => {
+    context('Given no events', () => {
+      it('Returns a 404 error', () => {
+        const eventId = 3;
+        return supertest(app)
+          .get(`/api/jobevents/${eventId}`)
+          .expect(404, { error: { message: 'Event not found' } });
+      });
+    });
+  });
 });

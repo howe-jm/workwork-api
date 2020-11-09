@@ -61,4 +61,15 @@ describe('Study Events Endpoints', () => {
       return supertest(app).get('/api/studyevents').expect(200, testEvents);
     });
   });
+
+  describe('GET /api/studyevents/:event_id', () => {
+    context('Given no events', () => {
+      it('Returns a 404 error', () => {
+        const eventId = 3;
+        return supertest(app)
+          .get(`/api/studyevents/${eventId}`)
+          .expect(404, { error: { message: 'Event not found' } });
+      });
+    });
+  });
 });

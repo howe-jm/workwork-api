@@ -26,4 +26,16 @@ jobEventsRouter.route('/').get((req, res, next) => {
     .catch(next);
 });
 
+jobEventsRouter.route('/:event_id').all((req, res, next) => {
+  JobEventsService.getJobEventById(req.app.get('db'), req.params.event_id)
+    .then((event) => {
+      if (!event) {
+        return res.status(404).json({ error: { message: 'Event not found' } });
+      }
+      res.event = event;
+      next();
+    })
+    .catch(next);
+});
+
 module.exports = jobEventsRouter;

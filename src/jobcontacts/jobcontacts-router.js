@@ -27,4 +27,16 @@ jobContactsRouter.route('/').get((req, res, next) => {
     .catch(next);
 });
 
+jobContactsRouter.route('/:contact_id').all((req, res, next) => {
+  JobContactsService.getJobContactById(req.app.get('db'), req.params.contact_id)
+    .then((contact) => {
+      if (!contact) {
+        return res.status(404).json({ error: { message: 'Contact not found' } });
+      }
+      res.contact = contact;
+      next();
+    })
+    .catch(next);
+});
+
 module.exports = jobContactsRouter;

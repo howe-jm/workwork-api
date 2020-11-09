@@ -28,4 +28,16 @@ studyCardsRouter.route('/').get((req, res, next) => {
     .catch(next);
 });
 
+studyCardsRouter.route('/:card_id').all((req, res, next) => {
+  StudyCardsService.getStudyCardById(req.app.get('db'), req.params.card_id)
+    .then((card) => {
+      if (!card) {
+        return res.status(404).json({ error: { message: 'Card not found' } });
+      }
+      res.card = card;
+      next();
+    })
+    .catch(next);
+});
+
 module.exports = studyCardsRouter;
