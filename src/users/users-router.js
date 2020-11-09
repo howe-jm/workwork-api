@@ -2,7 +2,6 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const UsersService = require('./users-service');
-const { serialize } = require('v8');
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
@@ -44,6 +43,13 @@ usersRouter
   })
   .get((req, res) => {
     res.json(serializeUser(res.user));
+  })
+  .delete((req, res, next) => {
+    UsersService.deleteUser(req.app.get('db'), req.params.user_id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = usersRouter;

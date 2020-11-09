@@ -5,6 +5,9 @@ const JobContactsService = {
   getJobContactById(knex, id) {
     return knex.from('workwork_jobcontacts').select('*').where('id', id).first();
   },
+  deleteContact(knex, id) {
+    return knex('workwork_jobcontacts').where({ id }).delete();
+  },
 };
 
 module.exports = JobContactsService;

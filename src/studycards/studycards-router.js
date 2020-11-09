@@ -43,5 +43,13 @@ studyCardsRouter
   })
   .get((req, res) => {
     res.json(serializeStudyCard(res.card));
+  })
+  .delete((req, res, next) => {
+    StudyCardsService.deleteCard(req.app.get('db'), req.params.card_id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
+
 module.exports = studyCardsRouter;

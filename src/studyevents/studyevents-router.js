@@ -41,6 +41,13 @@ studyEventsRouter
   })
   .get((req, res) => {
     res.json(serializeStudyEvent(res.event));
+  })
+  .delete((req, res, next) => {
+    StudyEventsService.deleteEvent(req.app.get('db'), req.params.event_id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = studyEventsRouter;

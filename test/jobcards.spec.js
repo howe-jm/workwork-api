@@ -81,4 +81,37 @@ describe('Job Cards Endpoints', () => {
       });
     });
   });
+  describe('DELETE /api/jobcards/:card_id', () => {
+    context('Given no cards', () => {
+      it('Returns a 404 error', () => {
+        const cardId = 3;
+        return supertest(app)
+          .delete(`/api/jobcards/${cardId}`)
+          .expect(404, { error: { message: 'Card not found' } });
+      });
+    });
+    context('Given users in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeJobCardsArray();
+
+      beforeEach('Insert events', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_jobcards').insert(testCards);
+          });
+      });
+      it('Returns 204 and removes the card', () => {
+        const cardId = 3;
+        const expectedCards = testCards.filter((card) => card.id !== cardId);
+        return supertest(app)
+          .delete(`/api/jobcards/${cardId}`)
+          .expect(204)
+          .then(() => {
+            return supertest(app).get('/api/jobcards').expect(expectedCards);
+          });
+      });
+    });
+  });
 });

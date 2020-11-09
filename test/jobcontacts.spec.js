@@ -96,4 +96,43 @@ describe('Job Contacts Endpoints', () => {
       });
     });
   });
+  describe('DELETE /api/jobcontacts/:contact_id', () => {
+    context('Given no contact', () => {
+      it('Returns a 404 error', () => {
+        const eventId = 3;
+        return supertest(app)
+          .delete(`/api/jobcontacts/${eventId}`)
+          .expect(404, { error: { message: 'Contact not found' } });
+      });
+    });
+    context('Given contacts in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeJobCardsArray();
+      const testContacts = makeJobContactsArray();
+
+      beforeEach('Insert contact', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_jobcards').insert(testCards);
+          })
+          .then(() => {
+            return db.into('workwork_jobcontacts').insert(testContacts);
+          });
+      });
+      it('Returns 204 and removes the contact', () => {
+        const contactId = 3;
+        const expectedContact = testContacts.filter(
+          (contact) => contact.id !== contactId
+        );
+        return supertest(app)
+          .delete(`/api/jobcontacts/${contactId}`)
+          .expect(204)
+          .then(() => {
+            return supertest(app).get('/api/jobcontacts').expect(expectedContact);
+          });
+      });
+    });
+  });
 });

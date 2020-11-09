@@ -41,6 +41,13 @@ jobEventsRouter
   })
   .get((req, res) => {
     res.json(serializeJobEvent(res.event));
+  })
+  .delete((req, res, next) => {
+    JobEventsService.deleteEvent(req.app.get('db'), req.params.event_id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = jobEventsRouter;

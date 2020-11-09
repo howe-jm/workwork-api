@@ -96,4 +96,41 @@ describe('Study Events Endpoints', () => {
       });
     });
   });
+  describe('DELETE /api/studyevents/:user_id', () => {
+    context('Given no events', () => {
+      it('Returns a 404 error', () => {
+        const eventId = 3;
+        return supertest(app)
+          .delete(`/api/studyevents/${eventId}`)
+          .expect(404, { error: { message: 'Event not found' } });
+      });
+    });
+    context('Given users in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeStudyCardsArray();
+      const testEvents = makeStudyEventsArray();
+
+      beforeEach('Insert events', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_studycards').insert(testCards);
+          })
+          .then(() => {
+            return db.into('workwork_studyevents').insert(testEvents);
+          });
+      });
+      it('Returns 204 and removes the event', () => {
+        const eventId = 3;
+        const expectedEvents = testEvents.filter((event) => event.id !== eventId);
+        return supertest(app)
+          .delete(`/api/studyevents/${eventId}`)
+          .expect(204)
+          .then(() => {
+            return supertest(app).get('/api/studyevents').expect(expectedEvents);
+          });
+      });
+    });
+  });
 });

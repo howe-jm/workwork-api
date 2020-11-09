@@ -43,6 +43,13 @@ jobContactsRouter
   })
   .get((req, res) => {
     res.json(serializeJobContact(res.contact));
+  })
+  .delete((req, res, next) => {
+    JobContactsService.deleteContact(req.app.get('db'), req.params.contact_id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = jobContactsRouter;

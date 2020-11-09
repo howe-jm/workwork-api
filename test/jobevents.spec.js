@@ -94,4 +94,41 @@ describe('Job Events Endpoints', () => {
       });
     });
   });
+  describe('DELETE /api/jobevents/:user_id', () => {
+    context('Given no events', () => {
+      it('Returns a 404 error', () => {
+        const eventId = 3;
+        return supertest(app)
+          .delete(`/api/jobevents/${eventId}`)
+          .expect(404, { error: { message: 'Event not found' } });
+      });
+    });
+    context('Given users in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeJobCardsArray();
+      const testEvents = makeJobEventsArray();
+
+      beforeEach('Insert events', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_jobcards').insert(testCards);
+          })
+          .then(() => {
+            return db.into('workwork_jobevents').insert(testEvents);
+          });
+      });
+      it('Returns 204 and removes the event', () => {
+        const eventId = 3;
+        const expectedEvents = testEvents.filter((event) => event.id !== eventId);
+        return supertest(app)
+          .delete(`/api/jobevents/${eventId}`)
+          .expect(204)
+          .then(() => {
+            return supertest(app).get('/api/jobevents').expect(expectedEvents);
+          });
+      });
+    });
+  });
 });

@@ -44,6 +44,13 @@ jobCardsRouter
   })
   .get((req, res) => {
     res.json(serializeJobCard(res.card));
+  })
+  .delete((req, res, next) => {
+    JobCardsService.deleteCard(req.app.get('db'), req.params.card_id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = jobCardsRouter;

@@ -69,4 +69,32 @@ describe('Users Endpoints', () => {
       });
     });
   });
+
+  describe('DELETE /api/users/:user_id', () => {
+    context('Given no users', () => {
+      it('Returns a 404 error', () => {
+        const userId = 3;
+        return supertest(app)
+          .delete(`/api/users/${userId}`)
+          .expect(404, { error: { message: 'User not found' } });
+      });
+    });
+    context('Given users in the database', () => {
+      const testUsers = makeUsersArray();
+
+      beforeEach('Insert users', () => {
+        return db.into('workwork_users').insert(testUsers);
+      });
+      it('Returns 204 and removes the user', () => {
+        const userId = 3;
+        const expectedUsers = testUsers.filter((user) => user.id !== userId);
+        return supertest(app)
+          .delete(`/api/users/${userId}`)
+          .expect(204)
+          .then(() => {
+            return supertest(app).get('/api/users').expect(expectedUsers);
+          });
+      });
+    });
+  });
 });
