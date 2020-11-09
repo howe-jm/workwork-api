@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const UsersService = require('./users-service');
+const { serialize } = require('v8');
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
@@ -28,16 +29,21 @@ usersRouter.route('/').get((req, res, next) => {
     .catch(next);
 });
 
-usersRouter.route('/:user_id').all((req, res, next) => {
-  UsersService.getUserById(req.app.get('db'), req.params.user_id)
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ error: { message: 'User not found' } });
-      }
-      res.user = user;
-      next();
-    })
-    .catch(next);
-});
+usersRouter
+  .route('/:user_id')
+  .all((req, res, next) => {
+    UsersService.getUserById(req.app.get('db'), req.params.user_id)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: { message: 'User not found' } });
+        }
+        res.user = user;
+        next();
+      })
+      .catch(next);
+  })
+  .get((req, res) => {
+    res.json(serializeUser(res.user));
+  });
 
 module.exports = usersRouter;

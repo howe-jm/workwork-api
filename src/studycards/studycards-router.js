@@ -10,8 +10,8 @@ const serializeStudyCard = (card) => ({
   id: card.id,
   trainingname: xss(card.trainingname),
   trainingurl: xss(card.trainingurl),
-  card_id: card.card_id,
   date_added: card.date_added,
+  comments: xss(card.comments),
   user_id: card.user_id,
 });
 
@@ -28,16 +28,20 @@ studyCardsRouter.route('/').get((req, res, next) => {
     .catch(next);
 });
 
-studyCardsRouter.route('/:card_id').all((req, res, next) => {
-  StudyCardsService.getStudyCardById(req.app.get('db'), req.params.card_id)
-    .then((card) => {
-      if (!card) {
-        return res.status(404).json({ error: { message: 'Card not found' } });
-      }
-      res.card = card;
-      next();
-    })
-    .catch(next);
-});
-
+studyCardsRouter
+  .route('/:card_id')
+  .all((req, res, next) => {
+    StudyCardsService.getStudyCardById(req.app.get('db'), req.params.card_id)
+      .then((card) => {
+        if (!card) {
+          return res.status(404).json({ error: { message: 'Card not found' } });
+        }
+        res.card = card;
+        next();
+      })
+      .catch(next);
+  })
+  .get((req, res) => {
+    res.json(serializeStudyCard(res.card));
+  });
 module.exports = studyCardsRouter;

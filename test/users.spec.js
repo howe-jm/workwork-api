@@ -56,5 +56,17 @@ describe('Users Endpoints', () => {
           .expect(404, { error: { message: 'User not found' } });
       });
     });
+    context('Given users in the database', () => {
+      const testUsers = makeUsersArray();
+
+      beforeEach('Insert users', () => {
+        return db.into('workwork_users').insert(testUsers);
+      });
+      it('Returns the specified user', () => {
+        const userId = 3;
+        const expectedUser = testUsers[userId - 1];
+        return supertest(app).get(`/api/users/${userId}`).expect(200, expectedUser);
+      });
+    });
   });
 });

@@ -71,5 +71,29 @@ describe('Study Events Endpoints', () => {
           .expect(404, { error: { message: 'Event not found' } });
       });
     });
+    context('Given events in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeStudyCardsArray();
+      const testEvents = makeStudyEventsArray();
+
+      beforeEach('Insert events', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_studycards').insert(testCards);
+          })
+          .then(() => {
+            return db.into('workwork_studyevents').insert(testEvents);
+          });
+      });
+      it('Returns the specified event', () => {
+        const eventId = 3;
+        const expectedEvent = testEvents[eventId - 1];
+        return supertest(app)
+          .get(`/api/studyevents/${eventId}`)
+          .expect(200, expectedEvent);
+      });
+    });
   });
 });

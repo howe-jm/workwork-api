@@ -71,5 +71,29 @@ describe('Job Contacts Endpoints', () => {
           .expect(404, { error: { message: 'Contact not found' } });
       });
     });
+    context('Given contacts in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeJobCardsArray();
+      const testContacts = makeJobContactsArray();
+
+      beforeEach('Insert events', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_jobcards').insert(testCards);
+          })
+          .then(() => {
+            return db.into('workwork_jobcontacts').insert(testContacts);
+          });
+      });
+      it('Returns the specified contacts', () => {
+        const contactId = 3;
+        const expectedContact = testContacts[contactId - 1];
+        return supertest(app)
+          .get(`/api/jobcontacts/${contactId}`)
+          .expect(200, expectedContact);
+      });
+    });
   });
 });

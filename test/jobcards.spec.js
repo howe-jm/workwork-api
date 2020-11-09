@@ -62,5 +62,23 @@ describe('Job Cards Endpoints', () => {
           .expect(404, { error: { message: 'Card not found' } });
       });
     });
+    context('Given cards in the database', () => {
+      const testUsers = makeUsersArray();
+      const testCards = makeJobCardsArray();
+
+      beforeEach('Insert events', () => {
+        return db
+          .into('workwork_users')
+          .insert(testUsers)
+          .then(() => {
+            return db.into('workwork_jobcards').insert(testCards);
+          });
+      });
+      it('Returns the specified card', () => {
+        const cardId = 3;
+        const expectedCard = testCards[cardId - 1];
+        return supertest(app).get(`/api/jobcards/${cardId}`).expect(200, expectedCard);
+      });
+    });
   });
 });
