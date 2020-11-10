@@ -15,41 +15,34 @@ const serializeStudyCard = (card) => ({
   user_id: card.user_id,
 });
 
-studyCardsRouter.route('/').get((req, res, next) => {
-  StudyCardsService.getAllStudyCards(req.app.get('db'))
-    .then((cards) => {
-      if (cards.length === 0) {
-        return res.status(404).json({
-          error: { message: 'No study cards' },
-        });
-      }
-      res.json(cards);
-    })
-    .catch(next);
-});
+let currentUser;
 
 studyCardsRouter
-  .route('/:card_id')
+  .route('/:user_name/studycards')
   .all((req, res, next) => {
-    StudyCardsService.getStudyCardById(req.app.get('db'), req.params.card_id)
-      .then((card) => {
-        if (!card) {
-          return res.status(404).json({ error: { message: 'Card not found' } });
+    StudyCardsService.getUserById(req.app.get('db'), req.params.user_name)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: { message: 'User not found' } });
         }
-        res.card = card;
+        res.user = user;
+        next();
+      })
+      .catch(next);
+  })
+  .get((req, res, next) => {
+    StudyCardsService.getUserCards(req.app.get('db'), res.user.id)
+      .then((cards) => {
+        if (!cards) {
+          return res.status(404).json({ error: { message: 'No cards found for user' } });
+        }
+        res.cards = cards;
         next();
       })
       .catch(next);
   })
   .get((req, res) => {
-    res.json(serializeStudyCard(res.card));
-  })
-  .delete((req, res, next) => {
-    StudyCardsService.deleteCard(req.app.get('db'), req.params.card_id)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch(next);
+    res.json(res.cards.map((card) => serializeStudyCard(card)));
   });
 
 module.exports = studyCardsRouter;

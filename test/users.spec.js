@@ -26,27 +26,6 @@ describe('Users Endpoints', () => {
     db.raw('TRUNCATE workwork_users RESTART IDENTITY CASCADE')
   );
 
-  describe('GET /api/users', () => {
-    context('Given no cards', () => {
-      it('Returns a 404 error', () => {
-        return supertest(app)
-          .get('/api/users')
-          .expect(404, { error: { message: 'No users' } });
-      });
-    });
-  });
-
-  context('Given there are users in the db', () => {
-    const testUsers = makeUsersArray();
-
-    beforeEach('Insert users', () => {
-      return db.into('workwork_users').insert(testUsers);
-    });
-    it('Responds with 200 and all of the folders', () => {
-      return supertest(app).get('/api/users').expect(200, testUsers);
-    });
-  });
-
   describe('GET /api/users/:user_id', () => {
     context('Given no users', () => {
       it('Returns a 404 error', () => {
@@ -93,6 +72,39 @@ describe('Users Endpoints', () => {
           .expect(204)
           .then(() => {
             return supertest(app).get('/api/users').expect(expectedUsers);
+          });
+      });
+    });
+  });
+
+  describe('POST /api/users/', () => {
+    context('Given there are no users in the database', () => {
+      it('Creates a new user and responds with 201 and the user', () => {
+        const newUser = {
+          firstname: 'Mister',
+          lastname: 'Tester',
+          username: 'MisterTester',
+          password: 'testerpassword',
+        };
+        return supertest(app)
+          .post('/api/users')
+          .send(newUser)
+          .expect(201)
+          .expect((res) => {
+            expect(res.body.firstname).to.eql(newUser.firstname);
+            expect(res.body.lastname).to.eql(newUser.lastname);
+            expect(res.body.username).to.eql(newUser.username);
+            expect(res.body.password).to.eql(newUser.password);
+            expect(res.body).to.have.property('id');
+            expect(res.headers.location).to.eql(`/api/users/${res.body.id}`);
+            const expected = new Date().toLocaleString();
+            const actual = new Date(res.body.date_created).toLocaleString();
+            expect(actual).to.eql(expected);
+          })
+          .then((postRes) => {
+            return supertest(app)
+              .get(`/api/users/${postRes.body.id}`)
+              .expect(postRes.body);
           });
       });
     });

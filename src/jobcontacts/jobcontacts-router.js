@@ -15,41 +15,4 @@ const serializeJobContact = (event) => ({
   card_id: event.card_id,
 });
 
-jobContactsRouter.route('/').get((req, res, next) => {
-  JobContactsService.getAllJobContacts(req.app.get('db'))
-    .then((contacts) => {
-      if (contacts.length === 0) {
-        return res.status(404).json({
-          error: { message: 'No job contacts' },
-        });
-      }
-      res.json(contacts);
-    })
-    .catch(next);
-});
-
-jobContactsRouter
-  .route('/:contact_id')
-  .all((req, res, next) => {
-    JobContactsService.getJobContactById(req.app.get('db'), req.params.contact_id)
-      .then((contact) => {
-        if (!contact) {
-          return res.status(404).json({ error: { message: 'Contact not found' } });
-        }
-        res.contact = contact;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res) => {
-    res.json(serializeJobContact(res.contact));
-  })
-  .delete((req, res, next) => {
-    JobContactsService.deleteContact(req.app.get('db'), req.params.contact_id)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch(next);
-  });
-
 module.exports = jobContactsRouter;

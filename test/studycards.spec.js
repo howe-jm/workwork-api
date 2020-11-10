@@ -27,91 +27,18 @@ describe('Study Cards Endpoints', () => {
     db.raw('TRUNCATE workwork_jobcards, workwork_users RESTART IDENTITY CASCADE')
   );
 
-  describe('GET /api/studycards', () => {
-    context('Given no cards', () => {
-      it('Returns a 404 error', () => {
-        return supertest(app)
-          .get('/api/studycards')
-          .expect(404, { error: { message: 'No study cards' } });
-      });
-    });
-  });
-  context('Given there are cards in the db', () => {
-    const testUsers = makeUsersArray();
-    const testCards = makeStudyCardsArray();
-
-    beforeEach('Insert users', () => {
-      return db
-        .into('workwork_users')
-        .insert(testUsers)
-        .then(() => {
-          return db.into('workwork_studycards').insert(testCards);
-        });
-    });
-    it('Responds with 200 and all of the cards', () => {
-      return supertest(app).get('/api/studycards').expect(200, testCards);
-    });
-  });
-
-  describe('GET /api/studycards/:card_id', () => {
-    context('Given no cards', () => {
-      it('Returns a 404 error', () => {
-        const cardId = 3;
-        return supertest(app)
-          .get(`/api/studycards/${cardId}`)
-          .expect(404, { error: { message: 'Card not found' } });
-      });
-    });
-    context('Given cards in the database', () => {
+  describe(`Getting a user's study cards.`, () => {
+    context('There are no cards in the db', () => {
       const testUsers = makeUsersArray();
-      const testCards = makeStudyCardsArray();
 
-      beforeEach('Insert events', () => {
-        return db
-          .into('workwork_users')
-          .insert(testUsers)
-          .then(() => {
-            return db.into('workwork_studycards').insert(testCards);
-          });
-      });
-      it('Returns the specified card', () => {
-        const cardId = 3;
-        const expectedCard = testCards[cardId - 1];
-        return supertest(app).get(`/api/studycards/${cardId}`).expect(200, expectedCard);
+      beforeEach('Insert users', () => {
+        return db.into('workwork_users').insert(testUsers);
       });
     });
-  });
-  describe('DELETE /api/studycards/:card_id', () => {
-    context('Given no cards', () => {
-      it('Returns a 404 error', () => {
-        const cardId = 3;
-        return supertest(app)
-          .delete(`/api/studycards/${cardId}`)
-          .expect(404, { error: { message: 'Card not found' } });
-      });
-    });
-    context('Given users in the database', () => {
-      const testUsers = makeUsersArray();
-      const testCards = makeStudyCardsArray();
-
-      beforeEach('Insert events', () => {
-        return db
-          .into('workwork_users')
-          .insert(testUsers)
-          .then(() => {
-            return db.into('workwork_studycards').insert(testCards);
-          });
-      });
-      it('Returns 204 and removes the card', () => {
-        const cardId = 3;
-        const expectedCards = testCards.filter((card) => card.id !== cardId);
-        return supertest(app)
-          .delete(`/api/studycards/${cardId}`)
-          .expect(204)
-          .then(() => {
-            return supertest(app).get('/api/studycards').expect(expectedCards);
-          });
-      });
+    it('Responds with a 404 error.', () => {
+      return supertest(app)
+        .get('/api/studyevents')
+        .expect(404, { message: { error: 'No cards found' } });
     });
   });
 });

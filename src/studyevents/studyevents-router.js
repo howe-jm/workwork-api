@@ -13,41 +13,22 @@ const serializeStudyEvent = (event) => ({
   date_added: event.date_added,
 });
 
-studyEventsRouter.route('/').get((req, res, next) => {
-  StudyEventsService.getAllStudyEvents(req.app.get('db'))
-    .then((events) => {
-      if (events.length === 0) {
-        return res.status(404).json({
-          error: { message: 'No study events' },
-        });
-      }
-      res.json(events);
-    })
-    .catch(next);
-});
-
 studyEventsRouter
-  .route('/:event_id')
-  .all((req, res, next) => {
-    StudyEventsService.getStudyEventById(req.app.get('db'), req.params.event_id)
-      .then((event) => {
-        if (!event) {
-          return res.status(404).json({ error: { message: 'Event not found' } });
+  .route('/')
+  .get((req, res, next) => {
+    StudyEventsService.getUserCards(req.app.get('db'), req.params.user_name)
+      .then((cards) => {
+        if (!cards) {
+          return res.status(404).json({ message: { error: 'No cards found' } });
         }
-        res.event = event;
+        res.cards = cards;
         next();
       })
       .catch(next);
   })
   .get((req, res) => {
-    res.json(serializeStudyEvent(res.event));
-  })
-  .delete((req, res, next) => {
-    StudyEventsService.deleteEvent(req.app.get('db'), req.params.event_id)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch(next);
+    res.cards = res.cards.map((card) => serializeStudyEvent(card));
+    return res.json(res.cards);
   });
 
 module.exports = studyEventsRouter;

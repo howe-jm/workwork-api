@@ -15,23 +15,14 @@ const serializeUser = (user) => ({
   date_created: user.date_created,
 });
 
-usersRouter.route('/').get((req, res, next) => {
-  UsersService.getAllUsers(req.app.get('db'))
-    .then((users) => {
-      if (users.length === 0) {
-        return res.status(404).json({
-          error: { message: 'No users' },
-        });
-      }
-      res.json(users);
-    })
-    .catch(next);
+usersRouter.route('/').all((req, res) => {
+  res.status(204).end();
 });
 
 usersRouter
-  .route('/:user_id')
+  .route('/:user_name')
   .all((req, res, next) => {
-    UsersService.getUserById(req.app.get('db'), req.params.user_id)
+    UsersService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {
           return res.status(404).json({ error: { message: 'User not found' } });

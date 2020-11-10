@@ -20,11 +20,11 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/api/jobcards', jobcardsRouter);
-app.use('/api/jobcontacts', jobContactsRouter);
-app.use('/api/jobevents', jobEventsRouter);
-app.use('/api/studycards', studyCardsRouter);
-app.use('/api/studyevents', studyEventsRouter);
+app.use('/api/users', jobcardsRouter);
+app.use('/api/users', jobContactsRouter);
+app.use('/api/users', jobEventsRouter);
+app.use('/api/users', studyCardsRouter);
+app.use('/api/users', studyEventsRouter);
 app.use('/api/users', usersRouter);
 
 app.get('/', (req, res) => {

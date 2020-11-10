@@ -16,41 +16,4 @@ const serializeJobCard = (card) => ({
   user_id: card.user_id,
 });
 
-jobCardsRouter.route('/').get((req, res, next) => {
-  JobCardsService.getAllJobCards(req.app.get('db'))
-    .then((cards) => {
-      if (cards.length === 0) {
-        return res.status(404).json({
-          error: { message: 'No job cards' },
-        });
-      }
-      res.json(cards);
-    })
-    .catch(next);
-});
-
-jobCardsRouter
-  .route('/:card_id')
-  .all((req, res, next) => {
-    JobCardsService.getJobCardById(req.app.get('db'), req.params.card_id)
-      .then((card) => {
-        if (!card) {
-          return res.status(404).json({ error: { message: 'Card not found' } });
-        }
-        res.card = card;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res) => {
-    res.json(serializeJobCard(res.card));
-  })
-  .delete((req, res, next) => {
-    JobCardsService.deleteCard(req.app.get('db'), req.params.card_id)
-      .then(() => {
-        res.status(204).end();
-      })
-      .catch(next);
-  });
-
 module.exports = jobCardsRouter;

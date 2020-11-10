@@ -1,12 +1,9 @@
 const StudyCardsService = {
-  getAllStudyCards(knex) {
-    return knex.select('*').from('workwork_studycards');
+  getUserById(knex, username) {
+    return knex.from('workwork_users').select('*').where('username', username).first();
   },
-  getStudyCardById(knex, id) {
-    return knex.from('workwork_studycards').select('*').where('id', id).first();
-  },
-  deleteCard(knex, id) {
-    return knex('workwork_studycards').where({ id }).delete();
+  getUserCards(knex, userId) {
+    return knex.from('workwork_studycards').select('*').where('user_id', userId);
   },
 };
 
