@@ -26,19 +26,4 @@ describe('Study Cards Endpoints', () => {
   afterEach('Cleanup the tables', () =>
     db.raw('TRUNCATE workwork_jobcards, workwork_users RESTART IDENTITY CASCADE')
   );
-
-  describe(`Getting a user's study cards.`, () => {
-    context('There are no cards in the db', () => {
-      const testUsers = makeUsersArray();
-
-      beforeEach('Insert users', () => {
-        return db.into('workwork_users').insert(testUsers);
-      });
-    });
-    it('Responds with a 404 error.', () => {
-      return supertest(app)
-        .get('/api/studyevents')
-        .expect(404, { message: { error: 'No cards found' } });
-    });
-  });
 });
