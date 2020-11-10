@@ -11,12 +11,34 @@ const serializeUser = (user) => ({
   firstname: xss(user.firstname),
   lastname: xss(user.lastname),
   username: xss(user.username),
-  password: xss(user.password),
   date_created: user.date_created,
 });
 
-usersRouter.route('/').all((req, res) => {
+usersRouter.route('/').get((req, res) => {
   res.status(204).end();
+});
+
+usersRouter.route('/').post(jsonParser, (req, res, next) => {
+  const { firstname, lastname, username, password } = req.body;
+  const newUser = { firstname, lastname, username, password };
+
+  for (const [key, value] of Object.entries(newUser)) {
+    // eslint-disable-next-line eqeqeq
+    if (value == null) {
+      return res.status(400).json({
+        error: { message: `Missing '${key}' in request body` },
+      });
+    }
+  }
+
+  UsersService.insertUser(req.app.get('db'), newUser)
+    .then((user) => {
+      res
+        .status(201)
+        .location(path.posix.join(req.originalUrl, `/${user.name}`))
+        .json(serializeUser(user));
+    })
+    .catch(next);
 });
 
 usersRouter

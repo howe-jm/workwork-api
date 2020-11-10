@@ -38,8 +38,8 @@ studyCardsRouter
   .get((req, res, next) => {
     StudyCardsService.getUserCards(req.app.get('db'), res.user.id)
       .then((cards) => {
-        if (!cards) {
-          return res.status(404).json({ error: { message: 'No cards found for user' } });
+        if (!cards || cards.length === 0) {
+          return res.status(204).end();
         }
         res.cards = cards;
         next();
@@ -66,7 +66,7 @@ studyCardsRouter
   .get((req, res, next) => {
     StudyCardsService.getUserCards(req.app.get('db'), res.user.id)
       .then((cards) => {
-        if (!cards) {
+        if (!cards || cards.length === 0) {
           return res.status(204).end();
         }
         res.cards = cards;

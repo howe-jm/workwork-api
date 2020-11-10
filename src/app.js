@@ -5,11 +5,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 
-const jobcardsRouter = require('./jobcards/jobcards-router');
-const jobContactsRouter = require('./jobcontacts/jobcontacts-router');
-const jobEventsRouter = require('./jobevents/jobevents-router');
+const jobCardsRouter = require('./jobcards/jobcards-router');
 const studyCardsRouter = require('./studycards/studycards-router');
-const studyEventsRouter = require('./studyevents/studyevents-router');
 const usersRouter = require('./users/users-router');
 
 const app = express();
@@ -20,11 +17,8 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/api/users', jobcardsRouter);
-app.use('/api/users', jobContactsRouter);
-app.use('/api/users', jobEventsRouter);
+app.use('/api/users', jobCardsRouter);
 app.use('/api/users', studyCardsRouter);
-app.use('/api/users', studyEventsRouter);
 app.use('/api/users', usersRouter);
 
 app.get('/', (req, res) => {
