@@ -2,7 +2,6 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const JobCardsService = require('./jobcards-service');
-const { uuid } = require('uuidv4');
 
 const jobCardsRouter = express.Router();
 const jsonParser = express.json();
@@ -26,15 +25,8 @@ const serializeJobContact = (event) => ({
   card_id: event.card_id,
 });
 
-const serializeJobEvent = (event) => ({
-  id: event.id,
-  eventtype: xss(event.eventtype),
-  card_id: event.card_id,
-  date_added: event.date_added,
-});
-
 jobCardsRouter
-  .route('/:user_name/jobcards')
+  .route('/:user_name')
   .all((req, res, next) => {
     JobCardsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
@@ -61,7 +53,6 @@ jobCardsRouter
     res.json(res.cards.map((card) => serializeJobCard(card)));
   })
   .post(jsonParser, (req, res, next) => {
-    console.log(req.body);
     const { companyname, jobtitle, joburl } = req.body;
     const newCard = { companyname, jobtitle, joburl };
 
@@ -73,7 +64,6 @@ jobCardsRouter
         });
       }
     }
-    newCard.id = uuid();
     newCard.user_id = res.user.id;
 
     JobCardsService.insertCard(req.app.get('db'), newCard)
@@ -87,7 +77,7 @@ jobCardsRouter
   });
 
 jobCardsRouter
-  .route('/:user_name/jobcards/:card_id')
+  .route('/:user_name/:card_id')
   .all((req, res, next) => {
     JobCardsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
@@ -125,86 +115,6 @@ jobCardsRouter
         res.status(204).end();
       })
       .catch(next);
-  });
-
-jobCardsRouter
-  .route('/:user_name/jobcards/events/')
-  .all((req, res, next) => {
-    JobCardsService.getUserById(req.app.get('db'), req.params.user_name)
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({ error: { message: 'User not found' } });
-        }
-        res.user = user;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    JobCardsService.getUserCards(req.app.get('db'), res.user.id)
-      .then((cards) => {
-        if (!cards) {
-          return res.status(204).end();
-        }
-        res.cards = cards;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    let cardsArray = res.cards.map((card) => card.id);
-    JobCardsService.getCardEvents(req.app.get('db'), cardsArray)
-      .then((events) => {
-        if (!events) {
-          return res.status(204).end();
-        }
-        res.events = events;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res) => {
-    res.json(res.events.map((event) => serializeJobEvent(event)));
-  });
-
-jobCardsRouter
-  .route('/:user_name/jobcards/contacts/')
-  .all((req, res, next) => {
-    JobCardsService.getUserById(req.app.get('db'), req.params.user_name)
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({ error: { message: 'User not found' } });
-        }
-        res.user = user;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    JobCardsService.getUserCards(req.app.get('db'), res.user.id)
-      .then((cards) => {
-        if (!cards) {
-          return res.status(204).end();
-        }
-        res.cards = cards;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    let cardsArray = res.cards.map((card) => card.id);
-    JobCardsService.getCardContacts(req.app.get('db'), cardsArray)
-      .then((contacts) => {
-        if (!contacts) {
-          return res.status(204).end();
-        }
-        res.contacts = contacts;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res) => {
-    res.json(res.contacts.map((contact) => serializeJobContact(contact)));
   });
 
 module.exports = jobCardsRouter;

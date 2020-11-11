@@ -1,6 +1,6 @@
 BEGIN;
 
-INSERT INTO workwork_jobevents (eventtype, card_id, date_added)
+INSERT INTO workwork_jobevents (eventtype, card_id, event_added)
 VALUES
 ('Resume Submitted', 2, '2019-02-12T00:00:00.000Z'),
 ('Resume Submitted', 5, '2019-02-13T00:00:00.000Z'),

@@ -1,6 +1,6 @@
 BEGIN;
 
-INSERT INTO workwork_studyevents (event_type, card_id, date_added)
+INSERT INTO workwork_studyevents (event_type, card_id, event_added)
 VALUES
 ('Video Watched', 1, '2019-02-12T00:00:00.000Z'),
 ('Video Watched', 2, '2019-02-13T00:00:00.000Z'),

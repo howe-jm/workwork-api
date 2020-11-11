@@ -4,7 +4,7 @@ CREATE TABLE workwork_users (
     lastname TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     password TEXT,
-    date_created TIMESTAMPTZ NOT NULL DEFAULT now()
+    user_added TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 ALTER TABLE workwork_jobcards

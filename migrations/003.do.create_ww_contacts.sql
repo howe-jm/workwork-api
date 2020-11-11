@@ -3,6 +3,7 @@ CREATE TABLE workwork_jobcontacts (
     contactname TEXT NOT NULL,
     contacttitle TEXT NOT NULL,
     contactnumber TEXT NOT NULL,
-    date_added TIMESTAMPTZ NOT NULL DEFAULT now(),
+    contactemail TEXT NOT NULL,
+    contact_added TIMESTAMPTZ NOT NULL DEFAULT now(),
     card_id INTEGER REFERENCES workwork_jobcards(id) ON DELETE CASCADE NOT NULL
 );

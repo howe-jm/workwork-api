@@ -3,6 +3,6 @@ CREATE TABLE workwork_jobcards (
     companyname TEXT NOT NULL,
     jobtitle TEXT NOT NULL,
     joburl TEXT NOT NULL,
-    date_added TIMESTAMPTZ DEFAULT now() NOT NULL,
+    job_added TIMESTAMPTZ DEFAULT now() NOT NULL,
     comments TEXT
 );
