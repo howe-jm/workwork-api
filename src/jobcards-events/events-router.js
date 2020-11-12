@@ -15,48 +15,9 @@ const serializeJobEvent = (event) => ({
 });
 
 jobEventsRouter
-  .route('/:user_name')
+  .route('/:user_name/events/:card_id')
   .all((req, res, next) => {
-    EventsService.getUserById(req.app.get('db'), req.params.user_name)
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({ error: { message: 'User not found' } });
-        }
-        res.user = user;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    EventsService.getUserCards(req.app.get('db'), res.user.id)
-      .then((cards) => {
-        if (!cards) {
-          return res.status(204).end();
-        }
-        res.cards = cards;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    let cardsArray = res.cards.map((card) => card.id);
-    EventsService.getCardEvents(req.app.get('db'), cardsArray)
-      .then((events) => {
-        if (!events) {
-          return res.status(204).end();
-        }
-        res.events = events;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res) => {
-    res.json(res.events.map((event) => serializeJobEvent(event)));
-  });
-
-jobEventsRouter
-  .route('/:user_name/:card_id')
-  .all((req, res, next) => {
+    console.log('ping');
     EventService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {

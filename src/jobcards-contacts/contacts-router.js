@@ -8,56 +8,18 @@ const jsonParser = express.json();
 
 const serializeJobContact = (contact) => ({
   id: contact.id,
-  contactname: xss(contact.contactname),
-  contactnumber: xss(contact.contactnumber),
-  contacttitle: xss(contact.contacttitle),
-  date_added: contact.date_added,
-  card_id: contact.card_id,
+  contactName: xss(contact.contactname),
+  contactNumber: xss(contact.contactnumber),
+  contactTitle: xss(contact.contacttitle),
+  contactEmail: xss(contact.contactemail),
+  dateAdded: contact.date_added,
+  cardId: contact.card_id,
 });
 
 jobContactsRouter
-  .route('/:user_name/')
+  .route('/:user_name/contacts/:card_id')
   .all((req, res, next) => {
-    ContactsService.getUserById(req.app.get('db'), req.params.user_name)
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({ error: { message: 'User not found' } });
-        }
-        res.user = user;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    ContactsService.getUserCards(req.app.get('db'), res.user.id)
-      .then((cards) => {
-        if (!cards) {
-          return res.status(204).end();
-        }
-        res.cards = cards;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res, next) => {
-    let cardsArray = res.cards.map((card) => card.id);
-    ContactsService.getCardContacts(req.app.get('db'), cardsArray)
-      .then((contacts) => {
-        if (!contacts) {
-          return res.status(204).end();
-        }
-        res.contacts = contacts;
-        next();
-      })
-      .catch(next);
-  })
-  .get((req, res) => {
-    res.json(res.contacts.map((contact) => serializeJobContact(contact)));
-  });
-
-jobContactsRouter
-  .route('/:user_name/:card_id')
-  .all((req, res, next) => {
+    console.log('ping');
     ContactsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {
@@ -84,17 +46,46 @@ jobContactsRouter
       return res.status(403).end();
     }
     ContactsService.getSingleCardContact(req.app.get('db'), res.card.id)
-      .then((contacts) => {
-        if (!contacts) {
+      .then((events) => {
+        if (!events) {
           return res.status(204).end();
         }
-        res.contacts = contacts;
+        res.events = events;
         next();
       })
       .catch(next);
   })
   .get((req, res) => {
-    res.json(res.contacts.map((contact) => serializeJobContact(contact)));
+    res.json(res.events.map((event) => serializeJobContact(event)));
+  })
+  .post(jsonParser, (req, res, next) => {
+    const { contactName, contactTitle, contactNumber, contactEmail } = req.body;
+    const card_id = res.card.id;
+    const newContact = {
+      contactname: contactName,
+      contacttitle: contactTitle,
+      contactnumber: contactNumber,
+      contactemail: contactEmail,
+      card_id,
+    };
+
+    for (const [key, value] of Object.entries(newContact)) {
+      // eslint-disable-next-line eqeqeq
+      if (value == null) {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` },
+        });
+      }
+    }
+
+    ContactsService.insertContact(req.app.get('db'), newContact)
+      .then((contact) => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${contact.id}`))
+          .json(serializeJobContact(contact));
+      })
+      .catch(next);
   });
 
 module.exports = jobContactsRouter;

@@ -11,10 +11,10 @@ const ContactsService = {
   getCardContacts(knex, cardsArray) {
     return knex.from('workwork_jobcontacts').select('*').whereIn('card_id', cardsArray);
   },
-  insertCard(knex, newCard) {
+  insertContact(knex, newContact) {
     return knex
-      .insert(newCard)
-      .into('workwork_jobcards')
+      .insert(newContact)
+      .into('workwork_jobcontacts')
       .returning('*')
       .then((rows) => {
         return rows[0];
