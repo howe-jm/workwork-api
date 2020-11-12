@@ -12,7 +12,7 @@ const serializeJobContact = (contact) => ({
   contactNumber: xss(contact.contactnumber),
   contactTitle: xss(contact.contacttitle),
   contactEmail: xss(contact.contactemail),
-  dateAdded: contact.date_added,
+  dateAdded: contact.contact_added,
   cardId: contact.card_id,
 });
 
@@ -46,17 +46,17 @@ jobContactsRouter
       return res.status(403).end();
     }
     ContactsService.getSingleCardContact(req.app.get('db'), res.card.id)
-      .then((events) => {
-        if (!events) {
+      .then((contacts) => {
+        if (!contacts) {
           return res.status(204).end();
         }
-        res.events = events;
+        res.contacts = contacts;
         next();
       })
       .catch(next);
   })
   .get((req, res) => {
-    res.json(res.events.map((event) => serializeJobContact(event)));
+    res.json(res.contacts.map((contact) => serializeJobContact(contact)));
   })
   .post(jsonParser, (req, res, next) => {
     const { contactName, contactTitle, contactNumber, contactEmail } = req.body;
@@ -84,6 +84,42 @@ jobContactsRouter
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${contact.id}`))
           .json(serializeJobContact(contact));
+      })
+      .catch(next);
+  });
+
+jobContactsRouter
+  .route('/:user_name/contacts/delete/:contact_id')
+  .all((req, res, next) => {
+    console.log('ping');
+    ContactsService.getUserById(req.app.get('db'), req.params.user_name)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: { message: 'User not found' } });
+        }
+        res.user = user;
+        next();
+      })
+      .catch(next);
+  })
+  .all((req, res, next) => {
+    ContactsService.getSingleContact(req.app.get('db'), req.params.contact_id)
+      .then((contact) => {
+        if (!contact) {
+          return res.status(404).json({ error: { message: 'Contact not found' } });
+        }
+        res.contact = contact;
+        next();
+      })
+      .catch(next);
+  })
+  .get((req, res) => {
+    res.json(res.contact.map((contact) => serializeJobContact(contact)));
+  })
+  .delete((req, res, next) => {
+    ContactsService.deleteContact(req.app.get('db'), req.params.contact_id)
+      .then(() => {
+        res.status(204).end();
       })
       .catch(next);
   });

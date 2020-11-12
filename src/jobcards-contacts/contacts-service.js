@@ -8,6 +8,9 @@ const ContactsService = {
   getSingleCardContact(knex, cardId) {
     return knex.from('workwork_jobcontacts').select('*').where('card_id', cardId);
   },
+  getSingleContact(knex, contactId) {
+    return knex.from('workwork_jobcontacts').select('*').where('id', contactId);
+  },
   getCardContacts(knex, cardsArray) {
     return knex.from('workwork_jobcontacts').select('*').whereIn('card_id', cardsArray);
   },
@@ -23,8 +26,8 @@ const ContactsService = {
   getCardById(knex, cardId) {
     return knex.from('workwork_jobcards').select('*').where('id', cardId).first();
   },
-  deleteCard(knex, id) {
-    return knex('workwork_jobcards').where({ id }).delete();
+  deleteContact(knex, id) {
+    return knex('workwork_jobcontacts').where({ id }).delete();
   },
 };
 
