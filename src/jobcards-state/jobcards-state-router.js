@@ -12,8 +12,25 @@ const serializeCardStateData = (data) => ({
   jobUrl: xss(data.joburl),
   dateAdded: data.date_added,
   comments: xss(data.comments),
-  contacts: [...data.contacts],
-  events: [...data.events],
+  contacts: [...data.contacts.map((contact) => serializeJobContact(contact))],
+  events: [...data.events.map((event) => serializeJobEvent(event))],
+});
+
+const serializeJobContact = (contact) => ({
+  id: contact.id,
+  contactName: xss(contact.contactname),
+  contactNumber: xss(contact.contactnumber),
+  contactTitle: xss(contact.contacttitle),
+  contactEmail: xss(contact.contactemail),
+  dateAdded: contact.date_added,
+  cardId: contact.card_id,
+});
+
+const serializeJobEvent = (event) => ({
+  id: event.id,
+  eventType: xss(event.eventtype),
+  cardId: event.card_id,
+  dateAdded: event.event_added,
 });
 
 jobCardsStateRouter
