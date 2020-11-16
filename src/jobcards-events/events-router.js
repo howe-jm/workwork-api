@@ -3,8 +3,6 @@ const express = require('express');
 const xss = require('xss');
 const EventsService = require('./events-service');
 const EventService = require('./events-service');
-const ContactsService = require('../jobcards-contacts/contacts-service');
-const { Events } = require('pg');
 
 const jobEventsRouter = express.Router();
 const jsonParser = express.json();
@@ -19,7 +17,6 @@ const serializeJobEvent = (event) => ({
 jobEventsRouter
   .route('/:user_name/events/:card_id')
   .all((req, res, next) => {
-    console.log('ping');
     EventService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {
