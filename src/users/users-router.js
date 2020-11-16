@@ -19,8 +19,8 @@ usersRouter.route('/').get((req, res) => {
 });
 
 usersRouter.route('/').post(jsonParser, (req, res, next) => {
-  const { firstname, lastname, username, password } = req.body;
-  const newUser = { firstname, lastname, username, password };
+  const { firstName, lastName, userName, password } = req.body;
+  const newUser = { firstname: firstName, lastname: lastName, username: userName, password };
 
   for (const [key, value] of Object.entries(newUser)) {
     // eslint-disable-next-line eqeqeq

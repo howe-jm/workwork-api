@@ -91,7 +91,6 @@ jobContactsRouter
 jobContactsRouter
   .route('/:user_name/contacts/delete/:contact_id')
   .all((req, res, next) => {
-    console.log('ping');
     ContactsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {

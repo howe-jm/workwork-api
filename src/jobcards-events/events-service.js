@@ -14,10 +14,10 @@ const EventService = {
   getCardContacts(knex, cardsArray) {
     return knex.from('workwork_jobcontacts').select('*').whereIn('card_id', cardsArray);
   },
-  insertCard(knex, newCard) {
+  insertEvent(knex, newCard) {
     return knex
       .insert(newCard)
-      .into('workwork_jobcards')
+      .into('workwork_jobevents')
       .returning('*')
       .then((rows) => {
         return rows[0];
@@ -26,8 +26,8 @@ const EventService = {
   getCardById(knex, cardId) {
     return knex.from('workwork_jobcards').select('*').where('id', cardId).first();
   },
-  deleteCard(knex, id) {
-    return knex('workwork_jobcards').where({ id }).delete();
+  deleteEvent(knex, id) {
+    return knex('workwork_jobevents').where({ id }).delete();
   },
 };
 
