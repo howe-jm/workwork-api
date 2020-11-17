@@ -44,6 +44,7 @@ jobCardsRouter
     };
 
     for (const [key, value] of Object.entries(newCard)) {
+      // eslint-disable-next-line eqeqeq
       if (value == null) {
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` },
@@ -84,7 +85,7 @@ jobCardsRouter
       })
       .catch(next);
   })
-  .get((req, res, next) => {
+  .get((req, res) => {
     res.json(serializeJobCard(res.card));
   })
   .delete((req, res, next) => {
