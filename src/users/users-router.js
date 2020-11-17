@@ -8,38 +8,52 @@ const jsonParser = express.json();
 
 const serializeUser = (user) => ({
   id: user.id,
-  firstname: xss(user.firstname),
-  lastname: xss(user.lastname),
-  username: xss(user.username),
-  date_created: user.date_created,
+  firstName: xss(user.firstname),
+  lastName: xss(user.lastname),
+  userName: xss(user.username),
+  dateCreated: user.date_created,
 });
 
-usersRouter.route('/').get((req, res) => {
-  res.status(204).end();
-});
+usersRouter
+  .route('/')
+  .get((req, res, next) => {
+    UsersService.getUsers(req.app.get('db'))
+      .then((users) => {
+        if (users.length === 0) {
+          return res.status(404).json({ error: { message: 'Users not found' } });
+        }
+        res.json(users.map((user) => serializeUser(user)));
+      })
+      .catch(next);
+  })
 
-usersRouter.route('/').post(jsonParser, (req, res, next) => {
-  const { firstName, lastName, userName, password } = req.body;
-  const newUser = { firstname: firstName, lastname: lastName, username: userName, password };
+  .post(jsonParser, (req, res, next) => {
+    const { firstName, lastName, userName } = req.body;
+    const newUser = {
+      firstname: firstName,
+      lastname: lastName,
+      username: userName,
+      password: 'testplaceholderpassword',
+    };
 
-  for (const [key, value] of Object.entries(newUser)) {
-    // eslint-disable-next-line eqeqeq
-    if (value == null) {
-      return res.status(400).json({
-        error: { message: `Missing '${key}' in request body` },
-      });
+    for (const [key, value] of Object.entries(newUser)) {
+      // eslint-disable-next-line eqeqeq
+      if (value == null) {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` },
+        });
+      }
     }
-  }
 
-  UsersService.insertUser(req.app.get('db'), newUser)
-    .then((user) => {
-      res
-        .status(201)
-        .location(path.posix.join(req.originalUrl, `/${user.name}`))
-        .json(serializeUser(user));
-    })
-    .catch(next);
-});
+    UsersService.insertUser(req.app.get('db'), newUser)
+      .then((user) => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${user.name}`))
+          .json(serializeUser(user));
+      })
+      .catch(next);
+  });
 
 usersRouter
   .route('/:user_name')

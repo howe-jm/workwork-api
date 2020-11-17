@@ -20,6 +20,15 @@ const ContactsService = {
         return rows[0];
       });
   },
+  updateContact(knex, id, newContFields) {
+    return knex('workwork_jobcontacts')
+      .where({ id })
+      .update(newContFields)
+      .returning('*')
+      .then((rows) => {
+        return rows[0];
+      });
+  },
   getCardById(knex, cardId) {
     return knex.from('workwork_jobcards').select('*').where('id', cardId).first();
   },

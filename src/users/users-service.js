@@ -1,4 +1,7 @@
 const UsersService = {
+  getUsers(knex) {
+    return knex.from('workwork_users').select('*');
+  },
   getUserById(knex, username) {
     return knex.from('workwork_users').select('*').where('username', username).first();
   },

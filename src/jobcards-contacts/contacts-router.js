@@ -88,7 +88,7 @@ jobContactsRouter
   });
 
 jobContactsRouter
-  .route('/:user_name/contacts/delete/:contact_id')
+  .route('/:user_name/contacts/update/:contact_id')
   .all((req, res, next) => {
     ContactsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
@@ -119,6 +119,40 @@ jobContactsRouter
       .then(() => {
         res.status(204).end();
       })
+      .catch(next);
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const { contactName, contactTitle, contactNumber, contactEmail, cardId } = req.body;
+
+    if (
+      !contactName ||
+      contactName === '' ||
+      !contactTitle ||
+      contactTitle === '' ||
+      ((!contactNumber || contactNumber === '') && (!contactEmail || contactEmail === ''))
+    ) {
+      return res.status(400).json({
+        error: {
+          message:
+            'Body must contain contactName, contactTItle, and either contactEmail or contactPhone',
+        },
+      });
+    }
+
+    const updatedContact = {
+      contactname: contactName,
+      contacttitle: contactTitle,
+      contactnumber: contactNumber,
+      contactemail: contactEmail,
+      card_id: cardId,
+    };
+
+    ContactsService.updateContact(
+      req.app.get('db'),
+      req.params.contact_id,
+      updatedContact
+    )
+      .then((contact) => res.status(200).json(serializeJobContact(contact)))
       .catch(next);
   });
 
