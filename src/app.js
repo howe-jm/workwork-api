@@ -7,8 +7,9 @@ const { NODE_ENV } = require('./config');
 
 const jobContactsRouter = require('./jobcards-contacts/contacts-router');
 const jobEventsRouter = require('./jobcards-events/events-router');
-const usersRouter = require('./users/users-router');
 const jobCardsState = require('./jobcards-state/jobcards-state-router');
+const jobCardsRouter = require('./jobcards/jobcards-router');
+const usersRouter = require('./users/users-router');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cors());
 
 app.use('/api/users', usersRouter);
 app.use('/api/jobs', jobCardsState);
+app.use('/api/jobs', jobCardsRouter);
 app.use('/api/jobs', jobEventsRouter);
 app.use('/api/jobs', jobContactsRouter);
 
@@ -27,7 +29,7 @@ app.get('/', (req, res) => {
   res.status(204).end();
 });
 
-app.use(function errorHandler(error, req, res, next) {
+app.use(function errorHandler(error, req, res) {
   let response;
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } };
