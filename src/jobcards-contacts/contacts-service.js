@@ -2,9 +2,6 @@ const ContactsService = {
   getUserById(knex, username) {
     return knex.from('workwork_users').select('*').where('username', username).first();
   },
-  getUserCards(knex, userId) {
-    return knex.from('workwork_jobcards').select('*').where('user_id', userId);
-  },
   getSingleCardContact(knex, cardId) {
     return knex.from('workwork_jobcontacts').select('*').where('card_id', cardId);
   },
