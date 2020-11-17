@@ -17,6 +17,15 @@ const JobCardsService = {
         return rows[0];
       });
   },
+  updateCard(knex, id, newCard) {
+    return knex('workwork_jobcards')
+      .where({ id })
+      .update(newCard)
+      .returning('*')
+      .then((rows) => {
+        return rows[0];
+      });
+  },
 };
 
 module.exports = JobCardsService;

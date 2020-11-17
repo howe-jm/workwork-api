@@ -13,7 +13,7 @@ const serializeJobCard = (data) => ({
   jobTitle: xss(data.jobtitle),
   jobUrl: xss(data.joburl),
   jobAdded: data.job_added,
-  comments: '',
+  comments: data.comments,
   contacts: [],
   events: [],
 });
@@ -93,6 +93,36 @@ jobCardsRouter
       .then(() => {
         res.status(204).end();
       })
+      .catch(next);
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const { companyName, jobTitle, jobUrl, comments } = req.body;
+    if (
+      !companyName ||
+      companyName === '' ||
+      !jobTitle ||
+      jobTitle === '' ||
+      !jobUrl ||
+      jobUrl === ''
+    ) {
+      return res.status(400).json({
+        error: {
+          message:
+            'Body must contain contactName, contactTItle, and either contactEmail or contactPhone',
+        },
+      });
+    }
+
+    const updatedCard = {
+      companyname: companyName,
+      jobtitle: jobTitle,
+      joburl: jobUrl,
+      comments: comments,
+    };
+    console.log(updatedCard.comments);
+
+    JobCardsService.updateCard(req.app.get('db'), req.params.card_id, updatedCard)
+      .then((card) => res.status(200).json(serializeJobCard(card)))
       .catch(next);
   });
 
