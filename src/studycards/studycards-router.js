@@ -92,6 +92,7 @@ studyCardsRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
+    console.log(req.body);
     const { trainingName, trainingUrl, comments } = req.body;
     if (!trainingName || trainingName === '' || !trainingUrl || trainingUrl === '') {
       return res.status(400).json({
