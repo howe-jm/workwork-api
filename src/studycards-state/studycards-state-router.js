@@ -8,7 +8,7 @@ const serializeCardStateData = (data) => ({
   id: data.id,
   userId: data.user_id,
   trainingName: xss(data.trainingname),
-  trainingUrl: xss(data.joburl),
+  trainingUrl: xss(data.trainingurl),
   dateAdded: data.card_added,
   comments: xss(data.comments),
   events: [...data.events.map((event) => serializeStudyEvent(event))],
