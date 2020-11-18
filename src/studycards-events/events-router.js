@@ -7,7 +7,7 @@ const EventService = require('./events-service');
 const studyEventsRouter = express.Router();
 const jsonParser = express.json();
 
-const serializeJobEvent = (event) => ({
+const serializeStudyEvent = (event) => ({
   id: event.id,
   eventType: xss(event.event_type),
   cardId: event.card_id,
@@ -53,7 +53,7 @@ studyEventsRouter
       .catch(next);
   })
   .get((req, res) => {
-    res.json(res.events.map((event) => serializeJobEvent(event)));
+    res.json(res.events.map((event) => serializeStudyEvent(event)));
   })
   .post(jsonParser, (req, res, next) => {
     const { eventType } = req.body;
@@ -76,7 +76,7 @@ studyEventsRouter
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${jobEvent.id}`))
-          .json(serializeJobEvent(jobEvent));
+          .json(serializeStudyEvent(jobEvent));
       })
       .catch(next);
   });
@@ -106,7 +106,7 @@ studyEventsRouter
       .catch(next);
   })
   .get((req, res) => {
-    res.json(res.event.map((jobEvent) => serializeJobEvent(jobEvent)));
+    res.json(res.event.map((jobEvent) => serializeStudyEvent(jobEvent)));
   })
   .delete((req, res, next) => {
     EventsService.deleteEvent(req.app.get('db'), req.params.event_id)

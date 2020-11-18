@@ -16,7 +16,7 @@ const serializeCardStateData = (data) => ({
 
 const serializeStudyEvent = (event) => ({
   id: event.id,
-  eventType: xss(event.eventtype),
+  eventType: xss(event.event_type),
   cardId: event.card_id,
   dateAdded: event.event_added,
 });
