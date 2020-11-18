@@ -1,12 +1,30 @@
 const StudyCardsService = {
   getUserById(knex, username) {
-    return knex.from('workwork_users').select('*').where('username', username).first();
+    return knex.from('workwork_users').select('id').where('username', username).first();
   },
-  getUserCards(knex, userId) {
-    return knex.from('workwork_studycards').select('*').where('user_id', userId);
+  getCardById(knex, cardId) {
+    return knex.from('workwork_studycards').select('*').where('id', cardId).first();
   },
-  getCardEvents(knex, cardsArray) {
-    return knex.from('workwork_studyevents').select('*').whereIn('card_id', cardsArray);
+  deleteCard(knex, id) {
+    return knex('workwork_studycards').where({ id }).delete();
+  },
+  insertCard(knex, newCard) {
+    return knex
+      .insert(newCard)
+      .into('workwork_studycards')
+      .returning('*')
+      .then((rows) => {
+        return rows[0];
+      });
+  },
+  updateCard(knex, id, newCard) {
+    return knex('workwork_studycards')
+      .where({ id })
+      .update(newCard)
+      .returning('*')
+      .then((rows) => {
+        return rows[0];
+      });
   },
 };
 

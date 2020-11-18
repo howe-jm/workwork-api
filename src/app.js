@@ -10,6 +10,9 @@ const jobEventsRouter = require('./jobcards-events/events-router');
 const jobCardsState = require('./jobcards-state/jobcards-state-router');
 const jobCardsRouter = require('./jobcards/jobcards-router');
 const usersRouter = require('./users/users-router');
+const studyCardsStateRouter = require('./studycards-state/studycards-state-router');
+const studyCardsRouter = require('./studycards/studycards-router');
+const studyEventsRouter = require('./studycards-events/events-router');
 
 const app = express();
 
@@ -24,6 +27,9 @@ app.use('/api/jobs', jobCardsState);
 app.use('/api/jobs', jobCardsRouter);
 app.use('/api/jobs', jobEventsRouter);
 app.use('/api/jobs', jobContactsRouter);
+app.use('/api/study', studyCardsStateRouter);
+app.use('/api/study', studyCardsRouter);
+app.use('/api/study', studyEventsRouter);
 
 app.get('/', (req, res) => {
   res.status(204).end();

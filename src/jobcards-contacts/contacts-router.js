@@ -153,7 +153,7 @@ jobContactsRouter
       updatedContact
     )
       .then((contact) => res.status(200).json(serializeJobContact(contact)))
-      .catch(next);
+      .catch(next); 
   });
 
 module.exports = jobContactsRouter;

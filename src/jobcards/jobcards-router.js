@@ -14,8 +14,6 @@ const serializeJobCard = (data) => ({
   jobUrl: xss(data.joburl),
   jobAdded: data.job_added,
   comments: data.comments,
-  contacts: [],
-  events: [],
 });
 
 jobCardsRouter
@@ -119,7 +117,6 @@ jobCardsRouter
       joburl: jobUrl,
       comments: comments,
     };
-    console.log(updatedCard.comments);
 
     JobCardsService.updateCard(req.app.get('db'), req.params.card_id, updatedCard)
       .then((card) => res.status(200).json(serializeJobCard(card)))
