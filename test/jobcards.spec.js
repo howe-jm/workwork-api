@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 require('dotenv').config();
 const { expect } = require('chai');
 const knex = require('knex');
@@ -5,10 +6,6 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const { makeUsersArray } = require('./fixtures/users.fixtures');
 const { makeJobCardsArray } = require('./fixtures/jobcards.fixtures');
-const { makeJobCardsState } = require('./fixtures/jobcardsstate');
-const { makeJobContactsArray } = require('./fixtures/jobcontacts.fixtures');
-const { makeJobEventsArray } = require('./fixtures/jobevents.fixtures');
-const { patch } = require('../src/app');
 
 describe('Job Cards endpoints', function () {
   let db;
