@@ -43,7 +43,7 @@ jobCardsRouter
 
     for (const [key, value] of Object.entries(newCard)) {
       // eslint-disable-next-line eqeqeq
-      if (value == null) {
+      if (value == null || value === '') {
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` },
         });
@@ -76,7 +76,7 @@ jobCardsRouter
     JobCardsService.getCardById(req.app.get('db'), req.params.card_id)
       .then((card) => {
         if (!card) {
-          return res.status(204).end();
+          return res.status(404).json({ error: { message: 'Card not found' } });
         }
         res.card = card;
         next();
@@ -95,31 +95,29 @@ jobCardsRouter
   })
   .patch(jsonParser, (req, res, next) => {
     const { companyName, jobTitle, jobUrl, comments } = req.body;
-    if (
-      !companyName ||
-      companyName === '' ||
-      !jobTitle ||
-      jobTitle === '' ||
-      !jobUrl ||
-      jobUrl === ''
-    ) {
-      return res.status(400).json({
-        error: {
-          message:
-            'Body must contain contactName, contactTItle, and either contactEmail or contactPhone',
-        },
-      });
-    }
-
     const updatedCard = {
       companyname: companyName,
       jobtitle: jobTitle,
       joburl: jobUrl,
-      comments: comments,
     };
 
+    for (const [key, value] of Object.entries(updatedCard)) {
+      // eslint-disable-next-line eqeqeq
+      if (value == null || value === '') {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` },
+        });
+      }
+    }
+    updatedCard.comments = comments;
+
     JobCardsService.updateCard(req.app.get('db'), req.params.card_id, updatedCard)
-      .then((card) => res.status(200).json(serializeJobCard(card)))
+      .then((card) =>
+        res
+          .status(200)
+          .location(path.posix.join(req.originalUrl))
+          .json(serializeJobCard(card))
+      )
       .catch(next);
   });
 
