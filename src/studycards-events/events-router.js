@@ -11,7 +11,7 @@ const serializeStudyEvent = (event) => ({
   id: event.id,
   eventType: xss(event.event_type),
   cardId: event.card_id,
-  dateAdded: event.date_added,
+  dateAdded: event.event_added,
 });
 
 studyEventsRouter
@@ -44,7 +44,7 @@ studyEventsRouter
     }
     EventService.getSingleCardEvent(req.app.get('db'), res.card.id)
       .then((events) => {
-        if (!events) {
+        if (events == false) {
           return res.status(204).end();
         }
         res.events = events;
@@ -82,7 +82,7 @@ studyEventsRouter
   });
 
 studyEventsRouter
-  .route('/:user_name/events/delete/:event_id')
+  .route('/:user_name/events/update/:event_id')
   .all((req, res, next) => {
     EventsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
