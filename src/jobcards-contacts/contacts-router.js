@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 const path = require('path');
 const express = require('express');
 const xss = require('xss');
@@ -46,10 +47,11 @@ jobContactsRouter
     }
     ContactsService.getSingleCardContact(req.app.get('db'), res.card.id)
       .then((contacts) => {
-        if (!contacts) {
+        if (contacts == false) {
           return res.status(204).end();
         }
         res.contacts = contacts;
+
         next();
       })
       .catch(next);
@@ -63,19 +65,25 @@ jobContactsRouter
     const newContact = {
       contactname: contactName,
       contacttitle: contactTitle,
-      contactnumber: contactNumber,
-      contactemail: contactEmail,
       card_id,
     };
 
     for (const [key, value] of Object.entries(newContact)) {
-      // eslint-disable-next-line eqeqeq
-      if (value == null) {
+      if (value == null || value === '') {
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` },
         });
       }
     }
+
+    if (!contactNumber || contactNumber === '' || !contactEmail || contactEmail === '') {
+      return res
+        .status(400)
+        .json({ error: { message: 'Must have either phone number or e-mail address.' } });
+    }
+
+    newContact.contactnumber = contactNumber;
+    newContact.contactemail = contactEmail;
 
     ContactsService.insertContact(req.app.get('db'), newContact)
       .then((contact) => {
@@ -122,38 +130,41 @@ jobContactsRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const { contactName, contactTitle, contactNumber, contactEmail, cardId } = req.body;
-
-    if (
-      !contactName ||
-      contactName === '' ||
-      !contactTitle ||
-      contactTitle === '' ||
-      ((!contactNumber || contactNumber === '') && (!contactEmail || contactEmail === ''))
-    ) {
-      return res.status(400).json({
-        error: {
-          message:
-            'Body must contain contactName, contactTItle, and either contactEmail or contactPhone',
-        },
-      });
-    }
-
+    const { contactName, contactTitle, contactNumber, contactEmail } = req.body;
     const updatedContact = {
+      id: req.params.contact_id,
       contactname: contactName,
       contacttitle: contactTitle,
-      contactnumber: contactNumber,
-      contactemail: contactEmail,
-      card_id: cardId,
     };
+    for (const [key, value] of Object.entries(updatedContact)) {
+      if (value == null || value === '') {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` },
+        });
+      }
+    }
+
+    if (!contactNumber || contactNumber === '' || !contactEmail || contactEmail === '') {
+      return res
+        .status(400)
+        .json({ error: { message: 'Must have either phone number or e-mail address.' } });
+    }
+
+    updatedContact.contactnumber = contactNumber;
+    updatedContact.contactemail = contactEmail;
 
     ContactsService.updateContact(
       req.app.get('db'),
       req.params.contact_id,
       updatedContact
     )
-      .then((contact) => res.status(200).json(serializeJobContact(contact)))
-      .catch(next); 
+      .then((contact) => {
+        return res
+          .status(200)
+          .location(path.posix.join(req.originalUrl))
+          .json(serializeJobContact(contact));
+      })
+      .catch(next);
   });
 
 module.exports = jobContactsRouter;

@@ -20,10 +20,10 @@ const ContactsService = {
         return rows[0];
       });
   },
-  updateContact(knex, id, newContFields) {
+  updateContact(knex, id, updatedContact) {
     return knex('workwork_jobcontacts')
       .where({ id })
-      .update(newContFields)
+      .update(updatedContact)
       .returning('*')
       .then((rows) => {
         return rows[0];

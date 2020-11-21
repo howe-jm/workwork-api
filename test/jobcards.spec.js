@@ -31,7 +31,8 @@ describe('Job Cards endpoints', function () {
       'TRUNCATE workwork_jobcontacts, workwork_jobevents, workwork_jobcards, workwork_users RESTART IDENTITY CASCADE;'
     )
   );
-  describe('GET /api/jobs/:username/cards', () => {
+
+  describe('ALL /api/jobs/:username/cards', () => {
     context('Given a non-existent user', () => {
       it('GET Returns a 404 and message', () => {
         return supertest(app)
@@ -69,14 +70,6 @@ describe('Job Cards endpoints', function () {
   });
 
   describe('POST /api/jobs/:username/cards', () => {
-    context('Given a non-existent user', () => {
-      it('GET Returns a 404 and message', () => {
-        return supertest(app)
-          .get('/api/jobs/testusername/cards')
-          .expect(404, { error: { message: 'User not found' } });
-      });
-    });
-
     context('Given a valid user', () => {
       const testUsers = makeUsersArray();
       beforeEach(() => db.into('workwork_users').insert(testUsers));
@@ -126,14 +119,6 @@ describe('Job Cards endpoints', function () {
       db.into('workwork_users').insert(testUsers)
     );
 
-    context('Given no cards or a non-existent card', () => {
-      it('Responds with a 404 error', () => {
-        return supertest(app)
-          .delete('/api/jobs/jkrakz/cards/3322')
-          .expect(404, { error: { message: 'Card not found' } });
-      });
-    });
-
     context('Given a valid card', () => {
       beforeEach('Insert Cards in to the database', () =>
         db.into('workwork_jobcards').insert(testCards)
@@ -166,15 +151,6 @@ describe('Job Cards endpoints', function () {
     beforeEach('Insert Users in to the database', () =>
       db.into('workwork_users').insert(testUsers)
     );
-
-    context('Given no cards or a non-existent card', () => {
-      it('Responds with a 404', () => {
-        return supertest(app)
-          .patch('/api/jobs/jkrakz/cards/1234')
-          .send(patchCard)
-          .expect(404, { error: { message: 'Card not found' } });
-      });
-    });
 
     context('Given a valid card but invalid patch data', () => {
       beforeEach('Insert Cards in to the database', () =>

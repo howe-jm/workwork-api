@@ -27,7 +27,7 @@ function makeJobCardsState() {
       ],
       events: [
         {
-          id: 1,
+          id: 6,
           eventType: 'Resume Submitted',
           cardId: 2,
           dateAdded: '2019-02-12T00:00:00.000Z',

@@ -6,6 +6,7 @@ function makeJobContactsArray() {
       contactnumber: '212-444-2024',
       contacttitle: 'Chief Slapper',
       contactemail: 'testemail@testemail.test',
+      contact_added: '2019-04-10T00:00:00.000Z',
       card_id: 2,
     },
     {
@@ -14,6 +15,7 @@ function makeJobContactsArray() {
       contactnumber: '212-444-2025',
       contacttitle: 'Bass Master',
       contactemail: 'testemail@testemail.test',
+      contact_added: '2019-04-10T00:00:00.000Z',
       card_id: 2,
     },
     {
@@ -22,6 +24,7 @@ function makeJobContactsArray() {
       contactnumber: '212-444-2041',
       contacttitle: 'DJ',
       contactemail: 'testemail@testemail.test',
+      contact_added: '2019-04-10T00:00:00.000Z',
       card_id: 9,
     },
     {
@@ -30,6 +33,7 @@ function makeJobContactsArray() {
       contactnumber: '212-444-2042',
       contacttitle: 'Vendor',
       contactemail: 'testemail@testemail.test',
+      contact_added: '2019-04-10T00:00:00.000Z',
       card_id: 9,
     },
     {
@@ -38,6 +42,7 @@ function makeJobContactsArray() {
       contactnumber: '212-444-2044',
       contacttitle: 'Card Shuffler',
       contactemail: 'testemail@testemail.test',
+      contact_added: '2019-04-10T00:00:00.000Z',
       card_id: 10,
     },
   ];

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 const path = require('path');
 const express = require('express');
 const xss = require('xss');
@@ -11,7 +12,7 @@ const serializeJobEvent = (event) => ({
   id: event.id,
   eventType: xss(event.eventtype),
   cardId: event.card_id,
-  dateAdded: event.date_added,
+  dateAdded: event.event_added,
 });
 
 jobEventsRouter
@@ -20,6 +21,7 @@ jobEventsRouter
     EventService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {
+          console.log(user);
           return res.status(404).json({ error: { message: 'User not found' } });
         }
         res.user = user;
@@ -44,7 +46,7 @@ jobEventsRouter
     }
     EventService.getSingleCardEvent(req.app.get('db'), res.card.id)
       .then((events) => {
-        if (!events) {
+        if (events == false) {
           return res.status(204).end();
         }
         res.events = events;
@@ -53,7 +55,7 @@ jobEventsRouter
       .catch(next);
   })
   .get((req, res) => {
-    res.json(res.events.map((event) => serializeJobEvent(event)));
+    res.status(200).json(res.events.map((event) => serializeJobEvent(event)));
   })
   .post(jsonParser, (req, res, next) => {
     const { eventType } = req.body;
@@ -73,7 +75,7 @@ jobEventsRouter
     }
     EventsService.insertEvent(req.app.get('db'), newEvent)
       .then((jobEvent) => {
-        res
+        return res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${jobEvent.id}`))
           .json(serializeJobEvent(jobEvent));
@@ -82,7 +84,7 @@ jobEventsRouter
   });
 
 jobEventsRouter
-  .route('/:user_name/events/delete/:event_id')
+  .route('/:user_name/events/update/:event_id')
   .all((req, res, next) => {
     EventsService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
