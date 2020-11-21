@@ -41,7 +41,7 @@ jobContactsRouter
       })
       .catch(next);
   })
-  .all((req, res, next) => {
+  .get((req, res, next) => {
     if (res.card.user_id !== res.user.id) {
       return res.status(403).end();
     }

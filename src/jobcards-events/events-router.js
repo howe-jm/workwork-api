@@ -21,7 +21,6 @@ jobEventsRouter
     EventService.getUserById(req.app.get('db'), req.params.user_name)
       .then((user) => {
         if (!user) {
-          console.log(user);
           return res.status(404).json({ error: { message: 'User not found' } });
         }
         res.user = user;
@@ -40,7 +39,7 @@ jobEventsRouter
       })
       .catch(next);
   })
-  .all((req, res, next) => {
+  .get((req, res, next) => {
     if (res.card.user_id !== res.user.id) {
       return res.status(403).end();
     }
