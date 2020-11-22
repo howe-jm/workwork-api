@@ -144,7 +144,10 @@ jobContactsRouter
       }
     }
 
-    if (!contactNumber || contactNumber === '' || !contactEmail || contactEmail === '') {
+    if (
+      (!contactNumber || contactNumber === '') &&
+      (!contactEmail || contactEmail === '')
+    ) {
       return res
         .status(400)
         .json({ error: { message: 'Must have either phone number or e-mail address.' } });
