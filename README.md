@@ -65,6 +65,7 @@ This endpoint is for the manipulation of Job Contacts on a given card. If the ca
 1. GET - For testing purposes, you may fetch and view contacts in Postman or similar.
 
 2. POST - You may create a new contacts for a specified card, in the following format:
+
    {
    "contactName": "Test Name", `string`  
     "contactTitle": "Test Title", `string`
