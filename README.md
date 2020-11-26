@@ -98,11 +98,13 @@ This endpoint exists solely for creating entirely new job cards. New cards will 
 
 1. POST - Creates a new job card, using the following format:
 
+```
 {
 "companyName": "Test Company", `string`
 "jobTitle": "Test Title", `string`
 "jobUrl": "http://www.google.com", `string, must be valid URL`
 }
+```
 
 #### /api/jobs/:user_name/cards/:card_id
 
@@ -124,6 +126,7 @@ This endpoint supports GET requests only!
 
 Each card is formatted as in this example:
 
+```
     {
         "id": 8,
         "userId": 1,
@@ -140,6 +143,7 @@ Each card is formatted as in this example:
             }
         ]
     }
+```
 
 #### /api/study/:user_name/events/:card_id
 
@@ -160,10 +164,12 @@ This endpoint exists solely for creating entirely new study cards. New cards wil
 
 1. POST - Creates a new study card, using the following format:
 
+```
 {
 "trainingName": "Study Test", `string`
 "trainingUrl": "http://www.google.com", `string, optional, must be valid URL`
 }
+```
 
 #### /api/study/:user_name/cards/:card_id
 
@@ -184,11 +190,14 @@ A rudimentary, non-secured system for keeping track of individual user cards is 
 1. GET - Fetches all user data and returns it. Currently used to populate user selection drop-down.
 
 2. POST - Allows a new user to be created, with the following format:
+
+```
    {
    "firstName": "Test", `string`
    "lastName": "Test", `string`
    "userName": "TestUsername" `String, must be unique.`
    }
+```
 
 NOTE: A Placeholder password is assigned automatically.
 
