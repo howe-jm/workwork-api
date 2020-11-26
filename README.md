@@ -31,6 +31,7 @@ This endpoint supports GET requests only!
 
 Each card is formatted as in this example:
 
+```
 {
 "id": 14,
 "userId": 1,
@@ -39,24 +40,25 @@ Each card is formatted as in this example:
 "jobUrl": "https://www.google.com",
 "comments": "",
 "contacts": [
-{
-"id": 8,
-"contactName": "Test Contact",
-"contactNumber": "123-456-7890",
-"contactTitle": "Test Title",
-"contactEmail": "test@test.com",
-"cardId": 14
-}
-],
+    {
+        "id": 8,
+        "contactName": "Test Contact",
+        "contactNumber": "123-456-7890",
+        "contactTitle": "Test Title",
+        "contactEmail": "test@test.com",
+        "cardId": 14
+        }
+    ],
 "events": [
-{
-"id": 13,
-"eventType": "test",
-"cardId": 14,
-"dateAdded": "2020-11-22T18:26:40.773Z"
+    {
+        "id": 13,
+        "eventType": "test",
+        "cardId": 14,
+        "dateAdded": "2020-11-22T18:26:40.773Z"
+        }
+    ]
 }
-]
-}
+```
 
 #### /api/jobs/:user_name/contacts/:card_id
 
@@ -66,14 +68,16 @@ This endpoint is for the manipulation of Job Contacts on a given card. If the ca
 
 2. POST - You may create a new contacts for a specified card, in the following format:
 
+```
    {
-   "contactName": "Test Name", `string`  
-    "contactTitle": "Test Title", `string`
-   "contactNumber": "123-456-7890", `string`
-   "contactEmail": "test@test.com", `string, must be a valid email address`
+   "contactName": "Test Name", (string)
+   "contactTitle": "Test Title", (string)
+   "contactNumber": "123-456-7890", (string)
+   "contactEmail": "test@test.com", (string, must be a valid email address)
    }
+```
 
-   Note: Contacts must have at least a number or an email.
+Note: Contacts must have at least a number or an email.
 
 3. PATCH - Individual contacts may be edited using the same format for POST.
 
@@ -86,9 +90,12 @@ This endpoint is for the manipulation of Job Events on a given card. If the card
 1. GET - For testing purposes, you may fetch and view contacts in Postman or similar.
 
 2. POST - You may create a new contacts for a specified card, in the following format:
+
+```
    {
-   "eventType": "Test Event", `string`
+   "eventType": "Test Event", (string)
    }
+```
 
 3. DELETE - Deletes an individual contact.
 
@@ -100,9 +107,9 @@ This endpoint exists solely for creating entirely new job cards. New cards will 
 
 ```
 {
-"companyName": "Test Company", `string`
-"jobTitle": "Test Title", `string`
-"jobUrl": "http://www.google.com", `string, must be valid URL`
+"companyName": "Test Company", (string)
+"jobTitle": "Test Title", (string)
+"jobUrl": "http://www.google.com", (string, must be valid URL)
 }
 ```
 
@@ -152,9 +159,12 @@ This endpoint is for the manipulation of Study Events on a given card. If the ca
 1. GET - For testing purposes, you may fetch and view contacts in Postman or similar.
 
 2. POST - You may create a new contacts for a specified card, in the following format:
+
+```
    {
-   "eventType": "Test Event", `string`
+   "eventType": "Test Event", (string)
    }
+```
 
 3. DELETE - Deletes an individual contact.
 
@@ -166,8 +176,8 @@ This endpoint exists solely for creating entirely new study cards. New cards wil
 
 ```
 {
-"trainingName": "Study Test", `string`
-"trainingUrl": "http://www.google.com", `string, optional, must be valid URL`
+"trainingName": "Study Test", (string)
+"trainingUrl": "http://www.google.com", (string, optional, must be valid URL)
 }
 ```
 
@@ -193,9 +203,9 @@ A rudimentary, non-secured system for keeping track of individual user cards is 
 
 ```
    {
-   "firstName": "Test", `string`
-   "lastName": "Test", `string`
-   "userName": "TestUsername" `String, must be unique.`
+   "firstName": "Test", (string)
+   "lastName": "Test", (string)
+   "userName": "TestUsername" (string, must be unique.)
    }
 ```
 
