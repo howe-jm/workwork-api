@@ -6,7 +6,7 @@ NOTE: This app includes PostgreSQL Database Migrations! Please ensure you have P
 
 ## Set up
 
-### To deploy locally for development!
+### To deploy locally for development
 
 1. Clone this repository to your local machine and change to its directory: `git clone REPOSITORY-URL workwork-server && cd $_`
 2. Make a fresh start of the git history for this project with `rm -rf .git && git init`
