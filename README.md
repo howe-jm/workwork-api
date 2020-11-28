@@ -8,7 +8,7 @@ NOTE: This app includes PostgreSQL Database Migrations! Please ensure you have P
 
 ### To deploy locally for development
 
-1. Clone this repository to your local machine and change to its directory: `git clone URL/SSH workwork-server && cd $_`
+1. Clone this repository to your local machine and change to its directory: `git clone URL/SSH workwork-api && cd $_`
 2. Make a fresh start of the git history for this project with `rm -rf .git && git init`
 3. Install the node dependencies `npm install`
 4. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
