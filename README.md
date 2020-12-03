@@ -14,7 +14,7 @@ Prior to creating this app, I was on my own when it came to keeping track of job
 
 ### Track Your Career Search
 
-WorkWork tracks jobs with cards, similar to those you may have seen on other sites like Trello or Google Projects. The difference is that WorkWork allows for a lot more information to be added to and tracked within thoose cards, including other cards (e.g. contacts for a particular job opportunity), and relevant events! It's as easy as creating a new card, filling out the information about the job when prompted, commenting on it if you'd like, and adding relevant information as you progress. This way, you can see when you made your last outreach call, for example, or recall whether you sent a recently revised resume to your potential employer by checking dates.
+WorkWork tracks jobs with cards, similar to those you may have seen on other sites like Trello or Google Projects. The difference is that WorkWork allows for a lot more information to be added to and tracked within those cards, including other cards (e.g. contacts for a particular job opportunity), and relevant events! It's as easy as creating a new card, filling out the information about the job when prompted, commenting on it if you'd like, and adding relevant information as you progress. This way, you can see when you made your last outreach call, for example, or recall whether you sent a recently revised resume to your potential employer by checking dates.
 
 ### Never Stop Learning
 
