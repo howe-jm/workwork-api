@@ -1,3 +1,33 @@
+# Welcome to WorkWork!
+
+Hello!
+
+WorkWork is the culmination of all my knowledge so far on creating a full-stack webapp using the PERN stack; PostgreSQL, Express, React, and Node!
+
+WorkWork is an app that will help its users keep track of two very important parts of the post-graduate process: Job leads, and ongoing study. It does so in a familiar, user-friendly, card-based format that allows users to create new cards for jobs and study materials, add to, edit, or comment on them, as well as keep track of the various steps they've taken toward their goals with that particular job or study material.
+
+Read on for more information, as well as instructions for deploying this app.
+
+## Why WorkWork Exists
+
+Prior to creating this app, I was on my own when it came to keeping track of jobs I'm interested, and in study materials. My main tools for doing so were a GoogleDocs spreadsheet, and Chrome bookmarks. That's it! I saw a need, even if it was just my own, and created an app to help satisfy that need. Here are the details!
+
+### Track Your Career Search
+
+WorkWork tracks jobs with cards, similar to those you may have seen on other sites like Trello or Google Projects. The difference is that WorkWork allows for a lot more information to be added to and tracked within thoose cards, including other cards (e.g. contacts for a particular job opportunity), and relevant events! It's as easy as creating a new card, filling out the information about the job when prompted, commenting on it if you'd like, and adding relevant information as you progress. This way, you can see when you made your last outreach call, for example, or recall whether you sent a recently revised resume to your potential employer by checking dates.
+
+### Never Stop Learning
+
+Equally as important as tracking job leads, if not moreso, keeping tabs on your ongoing learning and projects is important to your success as a developer! Using study cards, you can keep tabs on training material and even a broad overview of any projects you've been working on. Knowing when you last coded just for fun or practice can be important for keeping up to date on your skills, new interests, or portfolio projects, and WorkWork makes it quick and easy to do so.
+
+## Useful Links
+
+WorkWork Client Repository: https://github.com/howe-jm/workwork-client
+WOrkWork API Repository: https://github.com/howe-jm/workwork-api
+
+Live App: https://workwork-client.vercel.app/
+
+
 ## WorkWork API
 
 This is the API for the WorkWork job and training tracker app.
