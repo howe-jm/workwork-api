@@ -1,12 +1,12 @@
-# WorkWork API
+## WorkWork API
 
 This is the API for the WorkWork job and training tracker app.
 
 NOTE: This app includes PostgreSQL Database Migrations! Please ensure you have PostgreSQL installed and running when deploying this app, and follow the Migration steps.
 
-## Set up
+### Set up
 
-### To deploy locally for development
+#### To deploy locally for development
 
 1. Clone this repository to your local machine and change to its directory: `git clone URL/SSH workwork-api && cd $_`
 2. Make a fresh start of the git history for this project with `rm -rf .git && git init`
@@ -17,11 +17,11 @@ NOTE: This app includes PostgreSQL Database Migrations! Please ensure you have P
 7. (Optional) Create a test database, add it to the .env, migrate the tables in to it using `npm run migrate:test`, and test using `npm t`
 8. Run the server in development mode (nodemon) with `npm run dev`
 
-## Endpoints
+### Endpoints
 
 This API was created for use with the WorkWork React Client (https://github.com/howe-jm/workwork-client). As such, almost all endpoints are designed to function solely for use by that app! Some GET endpoints are included for testing purposes, but shouldn't be considered a part of the API's main functionality.
 
-### Job Cards Endpoints
+#### Job Cards Endpoints
 
 #### /api/jobs/:user_name
 
@@ -123,7 +123,7 @@ This endpoint allows for the manipulation of individual job cards.
 
 3. DELETE - To delete individual job cards.
 
-### Study Cards Endpoints
+#### Study Cards Endpoints
 
 #### /api/study/:user_name
 
@@ -215,7 +215,7 @@ NOTE: A Placeholder password is assigned automatically.
 
 1. GET - Fetches individial user data based on username.
 
-## Deploying
+## Deploying the API
 
 This API is currently set up to be deployed to Heroku. To do so, follow these steps:
 
