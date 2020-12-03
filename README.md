@@ -22,11 +22,17 @@ Equally as important as tracking job leads, if not moreso, keeping tabs on your 
 
 ## Useful Links
 
+WorkWork was designed function as a client dependent on an API server, and as such, requires both ends to be completely functional. Here are the links to the repositories, and a live version of the app:
+
 WorkWork Client Repository: https://github.com/howe-jm/workwork-client
 
 WorkWork API Repository: https://github.com/howe-jm/workwork-api
 
 Live App: https://workwork-client.vercel.app/
+
+## Screenshots
+
+Here are some images of the app in action:
 
 
 ## WorkWork API
