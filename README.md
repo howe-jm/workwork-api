@@ -261,7 +261,7 @@ A rudimentary, non-secured system for keeping track of individual user cards is 
 
 NOTE: A Placeholder password is assigned automatically.
 
-#### /apu/users/:user_name
+#### /api/users/:user_name
 
 1. GET - Fetches individial user data based on username.
 
