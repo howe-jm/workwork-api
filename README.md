@@ -35,7 +35,8 @@ Live App: https://workwork-client.vercel.app/
 Here are some images of the app in action:
 
 ### Mobile:
-![](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-01.jpg | width=200)
+[![Mobile Screenshot 01](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-01.jpg)](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-01.jpg "Mobile Screenshot 01")
+
 
 
 ## WorkWork API
