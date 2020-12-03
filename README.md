@@ -35,7 +35,16 @@ Live App: https://workwork-client.vercel.app/
 Here are some images of the app in action:
 
 ### Mobile:
-![Mobile Screenshot 01](https://github.com/howe-jm/workwork-api/blob/main/screenshots/desktop-01-thumb.jpg)]
+
+![Mobile Screenshot 01](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-01-thumb.jpg)
+![Mobile Screenshot 02](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-02-thumb.jpg)
+![Mobile Screenshot 03](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-03-thumb.jpg)
+![Mobile Screenshot 03](https://github.com/howe-jm/workwork-api/blob/main/screenshots/mobile-04-thumb.jpg)
+
+### Desktop:
+![Desktop Screenshot 01](https://github.com/howe-jm/workwork-api/blob/main/screenshots/desktop-01-thumb.jpg)
+![Desktop Screenshot 02](https://github.com/howe-jm/workwork-api/blob/main/screenshots/desktop-02-thumb.jpg)
+![Desktop Screenshot 03](https://github.com/howe-jm/workwork-api/blob/main/screenshots/desktop-03-thumb.jpg)
 
 
 
