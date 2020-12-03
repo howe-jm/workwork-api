@@ -23,7 +23,8 @@ Equally as important as tracking job leads, if not moreso, keeping tabs on your 
 ## Useful Links
 
 WorkWork Client Repository: https://github.com/howe-jm/workwork-client
-WOrkWork API Repository: https://github.com/howe-jm/workwork-api
+
+WorkWork API Repository: https://github.com/howe-jm/workwork-api
 
 Live App: https://workwork-client.vercel.app/
 
